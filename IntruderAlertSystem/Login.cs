@@ -9,21 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IntruderAlertSystem {
-    public partial class Login : SingletonForm {
+    public partial class Login : Form {
         public Login() {
             InitializeComponent();
         }
 
         private void btnLogin_Click(object sender, EventArgs e) {
-            Login.closeForm();
+            this.Close();
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
-            //Register r = new Register();
-            //r.Show();
-            //this.Hide();
-            Register.showForm();
-            Login.hideForm();
+            Register r = new Register();
+            r.Show();
+            this.Hide();
         }
 
         private void btnReset_Click(object sender, EventArgs e) {
