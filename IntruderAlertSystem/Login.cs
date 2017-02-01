@@ -10,8 +10,19 @@ using System.Windows.Forms;
 
 namespace IntruderAlertSystem {
     public partial class Login : Form {
+
+        private static Login login = null;
+
         public Login() {
             InitializeComponent();
+        }
+
+        public static Form getInstance() {
+            if (login == null) {
+                login = new Login();
+            }
+
+            return login;
         }
 
         private void btnLogin_Click(object sender, EventArgs e) {
@@ -19,8 +30,7 @@ namespace IntruderAlertSystem {
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
-            Register r = new Register();
-            r.Show();
+            Register.getInstance().Show();
             this.Hide();
         }
 
