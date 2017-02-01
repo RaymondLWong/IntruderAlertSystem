@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IntruderAlertSystem {
-    public partial class Register : Form {
+    public partial class Register : SingletonForm {
         public Register() {
             InitializeComponent();
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
-            this.Close();
-            this.Login
+            Login.showForm();
+            Register.hideForm();
         }
     }
 }
