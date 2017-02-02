@@ -54,6 +54,9 @@ namespace IntruderAlertSystem {
             } else {
                 // create a new user in the database
 
+                // create a new salt, hash password and store both in db
+                // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
+
                 // clear the data so a new user can login
                 clearData();
             }

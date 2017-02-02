@@ -27,10 +27,17 @@ namespace IntruderAlertSystem {
 
         private void btnLogin_Click(object sender, EventArgs e) {
             // compare values with db
-            bool same = PasswordHashWithPBKDF2.compareWithStoredPassword(txtUsername.Text, PasswordHashWithPBKDF2.hashPassword("pass"));
-            Console.WriteLine(same ? "Passwords are the same." : "Passwords are different.");
+            byte[] salt = Convert.FromBase64String("Np+OF2DR0RgHUj4qMaPzrAzlLMULxflcy+HtBnTCat0=");
+            string target = PasswordHashWithPBKDF2.hashPasswordAsString("pass", salt);
+            string pw1 = PasswordHashWithPBKDF2.hashPasswordAsString(txtUsername.Text, salt);
+            //bool same = PasswordHashWithPBKDF2.compareWithStoredPassword(txtUsername.Text, salt, target);
+            Console.WriteLine(String.Format("{0} ; {1}", pw1, target));
+            //Console.WriteLine(same ? "Passwords are the same." : "Passwords are different.");
 
-            this.Hide();
+            bool s = PasswordHashWithPBKDF2.compareWithStoredPassword("pass", "zJN8HKhBRQeOMI+7eprpNI2/BFY=", salt);
+            Console.WriteLine(String.Format("Passwords are the same: " + s));
+
+            //this.Hide();
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
