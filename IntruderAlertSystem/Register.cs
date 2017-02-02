@@ -33,6 +33,11 @@ namespace IntruderAlertSystem {
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
+            if (txtUsername.Text == "" || txtPassword.Text == "" || txtPassword2.Text == "") {
+                MessageBox.Show("All fields are mandatory, please fill them in.", "One or more fields are blank", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             bool uniqueUsername = checkUsernameUnique();
             bool passwordSame = verifyPassword();
 
