@@ -35,6 +35,7 @@
             // txtUsername
             // 
             this.txtUsername.Location = new System.Drawing.Point(73, 6);
+            this.txtUsername.MaxLength = 32;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(199, 20);
             this.txtUsername.TabIndex = 0;
@@ -60,6 +61,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(73, 32);
+            this.txtPassword.MaxLength = 32;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(199, 20);
@@ -95,7 +97,7 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // Form1
+            // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -107,8 +109,10 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.txtUsername);
-            this.Name = "Form1";
+            this.Name = "Login";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Login";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Login_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

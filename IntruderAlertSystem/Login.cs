@@ -26,7 +26,11 @@ namespace IntruderAlertSystem {
         }
 
         private void btnLogin_Click(object sender, EventArgs e) {
-            this.Close();
+            // compare values with db
+            bool same = PasswordHashWithPBKDF2.compareWithStoredPassword(txtUsername.Text, PasswordHashWithPBKDF2.hashPassword("pass"));
+            Console.WriteLine(same ? "Passwords are the same." : "Passwords are different.");
+
+            this.Hide();
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
@@ -37,6 +41,10 @@ namespace IntruderAlertSystem {
         private void btnReset_Click(object sender, EventArgs e) {
             txtUsername.Text = "";
             txtPassword.Text = "";
+        }
+
+        private void Login_FormClosing(object sender, FormClosingEventArgs e) {
+            Common.confirmClose(ref e);
         }
     }
 }
