@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,42 @@ namespace IntruderAlertSystem {
 
         public Login() {
             InitializeComponent();
+
+            testDBConnection();
+        }
+
+        public void testDBConnection() {
+            MySqlConnection con = Database.getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE UserId=@UID", con);
+            cmd.Parameters.Add(new MySqlParameter("@UID", 23));
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+
+            DataSet ds = new DataSet();
+            MySqlDataAdapter dAdap = new MySqlDataAdapter();
+            dAdap.SelectCommand = cmd;
+            dAdap.Fill(ds, "Username");
+
+            MySqlDataReader reader;
+
+            try {
+                //string uname = ds.Tables["Username"].Rows[0].ToString();
+                //Console.WriteLine(String.Format("username is: '{0}'", uname));
+
+                reader = cmd.ExecuteReader();
+                if (reader.Read()) {
+                    string s = reader.GetString("Username");
+                    Console.WriteLine(String.Format("username is: '{0}'", s));
+                }
+
+                reader.Close();
+
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
         }
 
         public static Form getInstance() {
@@ -30,9 +67,7 @@ namespace IntruderAlertSystem {
             byte[] salt = Convert.FromBase64String("Np+OF2DR0RgHUj4qMaPzrAzlLMULxflcy+HtBnTCat0=");
             string target = PasswordHashWithPBKDF2.hashPasswordAsString("pass", salt);
             string pw1 = PasswordHashWithPBKDF2.hashPasswordAsString(txtUsername.Text, salt);
-            //bool same = PasswordHashWithPBKDF2.compareWithStoredPassword(txtUsername.Text, salt, target);
             Console.WriteLine(String.Format("{0} ; {1}", pw1, target));
-            //Console.WriteLine(same ? "Passwords are the same." : "Passwords are different.");
 
             bool s = PasswordHashWithPBKDF2.compareWithStoredPassword("pass", "zJN8HKhBRQeOMI+7eprpNI2/BFY=", salt);
             Console.WriteLine(String.Format("Passwords are the same: " + s));

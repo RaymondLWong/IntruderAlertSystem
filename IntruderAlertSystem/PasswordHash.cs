@@ -20,10 +20,10 @@ namespace IntruderAlertSystem {
         }
     }
 
-    // TODO: return as byte[] NOT string
+    // source: https://www.owasp.org/index.php/Using_Rfc2898DeriveBytes_for_PBKDF2
     public class PasswordHashWithPBKDF2 {
         private static int iterationCount = 20000;
-        // source: https://www.owasp.org/index.php/Using_Rfc2898DeriveBytes_for_PBKDF2
+        
         public static string hashPasswordAsString(string password) {
             // Generate the hash, with an automatic 32 byte salt
             Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 32, iterationCount);

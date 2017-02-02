@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="Database.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
