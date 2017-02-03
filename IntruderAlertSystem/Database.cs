@@ -55,6 +55,35 @@ namespace IntruderAlertSystem {
             createUser("testUser123", pw, salt);
         }
 
+        public static void testUserLogin() {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = 'testUser123'", con);
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+
+            MySqlDataReader reader;
+            byte[] salt = null;
+            byte[] storedPw = null;
+
+            try {
+                reader = cmd.ExecuteReader();
+                if (reader.Read()) {
+                    salt = (byte[])reader["PasswordSalt"];
+                    storedPw = (byte[])reader["PasswordHash"];
+                }
+
+                reader.Close();
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            bool pw = PasswordHashWithPBKDF2.compareWithStoredPassword("pass", storedPw, salt);
+            Console.WriteLine("password is the same: " + pw);
+        }
+
         public static void testDBConnection() {
             MySqlConnection con = getDBConection();
             //MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE UserId=@UID", con);
@@ -64,10 +93,10 @@ namespace IntruderAlertSystem {
             con.Open();
             cmd.ExecuteNonQuery();
 
-            DataSet ds = new DataSet();
-            MySqlDataAdapter dAdap = new MySqlDataAdapter();
-            dAdap.SelectCommand = cmd;
-            dAdap.Fill(ds, "Username");
+            //DataSet ds = new DataSet();
+            //MySqlDataAdapter dAdap = new MySqlDataAdapter();
+            //dAdap.SelectCommand = cmd;
+            //dAdap.Fill(ds, "Username");
 
             MySqlDataReader reader;
 

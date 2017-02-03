@@ -17,7 +17,7 @@ namespace IntruderAlertSystem {
         public Login() {
             InitializeComponent();
 
-            //Database.testCreateUser();
+            Database.testUserLogin();
         }
 
         public static Form getInstance() {
