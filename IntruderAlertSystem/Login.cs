@@ -17,41 +17,7 @@ namespace IntruderAlertSystem {
         public Login() {
             InitializeComponent();
 
-            testDBConnection();
-        }
-
-        public void testDBConnection() {
-            MySqlConnection con = Database.getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE UserId=@UID", con);
-            cmd.Parameters.Add(new MySqlParameter("@UID", 23));
-
-            con.Open();
-            cmd.ExecuteNonQuery();
-
-            DataSet ds = new DataSet();
-            MySqlDataAdapter dAdap = new MySqlDataAdapter();
-            dAdap.SelectCommand = cmd;
-            dAdap.Fill(ds, "Username");
-
-            MySqlDataReader reader;
-
-            try {
-                //string uname = ds.Tables["Username"].Rows[0].ToString();
-                //Console.WriteLine(String.Format("username is: '{0}'", uname));
-
-                reader = cmd.ExecuteReader();
-                if (reader.Read()) {
-                    string s = reader.GetString("Username");
-                    Console.WriteLine(String.Format("username is: '{0}'", s));
-                }
-
-                reader.Close();
-
-            } catch (Exception ex) {
-                throw ex;
-            } finally {
-                con.Close();
-            }
+            //Database.testCreateUser();
         }
 
         public static Form getInstance() {

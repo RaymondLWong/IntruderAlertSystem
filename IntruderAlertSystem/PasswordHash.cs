@@ -24,6 +24,14 @@ namespace IntruderAlertSystem {
     public class PasswordHashWithPBKDF2 {
         private static int iterationCount = 20000;
         
+        public static byte[] generateSalt() {
+            // source: http://geekswithblogs.net/Nettuce/archive/2012/06/14/salt-and-hash-a-password-in.net.aspx
+            byte[] saltBytes = new byte[32];
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            provider.GetNonZeroBytes(saltBytes);
+            return saltBytes;
+        }
+
         public static string hashPasswordAsString(string password) {
             // Generate the hash, with an automatic 32 byte salt
             Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 32, iterationCount);
@@ -33,7 +41,6 @@ namespace IntruderAlertSystem {
         }
 
         public static string hashPasswordAsString(string password, byte[] salt) {
-            // Generate the hash, with an automatic 32 byte salt
             Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, salt, iterationCount);
             byte[] hash = rfc2898DeriveBytes.GetBytes(20);
             // Return the salt and the hash
