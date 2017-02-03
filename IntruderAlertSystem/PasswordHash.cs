@@ -32,6 +32,7 @@ namespace IntruderAlertSystem {
             return saltBytes;
         }
 
+        // methods with password and salt as strings
         public static string hashPasswordAsString(string password) {
             // Generate the hash, with an automatic 32 byte salt
             Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 32, iterationCount);
@@ -53,6 +54,7 @@ namespace IntruderAlertSystem {
             return hashPasswordAsString(password, salt).Equals(storedHash);
         }
 
+        // methods with password and salt as bytes
         public static byte[] hashPassword(string password) {
             Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, 32, iterationCount);
             return rfc2898DeriveBytes.GetBytes(20);

@@ -46,18 +46,12 @@ namespace IntruderAlertSystem {
 
         }
 
-        public static void testCreateUser() {
-            byte[] salt = PasswordHashWithPBKDF2.generateSalt();
-            byte[] pw = PasswordHashWithPBKDF2.hashPassword("pass", salt);
-
-            Console.WriteLine(String.Format("salt: {0} ; pw: {1}", Convert.ToBase64String(salt), Convert.ToBase64String(pw)));
-
-            createUser("testUser123", pw, salt);
-        }
-
-        public static void testUserLogin() {
+        public static bool authenticateUser(string username, string password) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = 'testUser123'", con);
+            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = '@uname'", con);
+            cmd.Parameters.Add(new MySqlParameter("@uname", username));
+
+            //Console.WriteLine(String.Format("sql: {0}", cmd.CommandText));
 
             con.Open();
             cmd.ExecuteNonQuery();
@@ -71,6 +65,8 @@ namespace IntruderAlertSystem {
                 if (reader.Read()) {
                     salt = (byte[])reader["PasswordSalt"];
                     storedPw = (byte[])reader["PasswordHash"];
+                } else {
+                    Console.WriteLine(String.Format("Username '{0}' not found.", username));
                 }
 
                 reader.Close();
@@ -80,8 +76,20 @@ namespace IntruderAlertSystem {
                 con.Close();
             }
 
-            bool pw = PasswordHashWithPBKDF2.compareWithStoredPassword("pass", storedPw, salt);
-            Console.WriteLine("password is the same: " + pw);
+            if (salt == null || storedPw == null) {
+                return false;
+            }
+
+            return PasswordHashWithPBKDF2.compareWithStoredPassword(password, storedPw, salt);
+        }
+
+        public static void testCreateUser() {
+            byte[] salt = PasswordHashWithPBKDF2.generateSalt();
+            byte[] pw = PasswordHashWithPBKDF2.hashPassword("pass", salt);
+
+            Console.WriteLine(String.Format("salt: {0} ; pw: {1}", Convert.ToBase64String(salt), Convert.ToBase64String(pw)));
+
+            createUser("testUser123", pw, salt);
         }
 
         public static void testDBConnection() {

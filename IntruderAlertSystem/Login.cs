@@ -16,8 +16,6 @@ namespace IntruderAlertSystem {
 
         public Login() {
             InitializeComponent();
-
-            Database.testUserLogin();
         }
 
         public static Form getInstance() {
@@ -29,21 +27,16 @@ namespace IntruderAlertSystem {
         }
 
         private void btnLogin_Click(object sender, EventArgs e) {
-            // compare values with db
-            byte[] salt = Convert.FromBase64String("Np+OF2DR0RgHUj4qMaPzrAzlLMULxflcy+HtBnTCat0=");
-            string target = PasswordHashWithPBKDF2.hashPasswordAsString("pass", salt);
-            string pw1 = PasswordHashWithPBKDF2.hashPasswordAsString(txtUsername.Text, salt);
-            Console.WriteLine(String.Format("{0} ; {1}", pw1, target));
-
-            bool s = PasswordHashWithPBKDF2.compareWithStoredPassword("pass", "zJN8HKhBRQeOMI+7eprpNI2/BFY=", salt);
-            Console.WriteLine(String.Format("Passwords are the same: " + s));
-
-            //this.Hide();
+            handleLogin();
         }
 
         private void btnRegister_Click(object sender, EventArgs e) {
             Register.getInstance().Show();
-            this.Hide();
+            getInstance().Hide();
+        }
+
+        private void clearData() {
+
         }
 
         private void btnReset_Click(object sender, EventArgs e) {
@@ -53,6 +46,30 @@ namespace IntruderAlertSystem {
 
         private void Login_FormClosing(object sender, FormClosingEventArgs e) {
             Common.confirmClose(ref e);
+        }
+
+        private void handleLogin() {
+            if (txtUsername.Text == "" || txtPassword.Text == "") {
+                MessageBox.Show("Both Username and Password fields are mandatory, please fill them in.",
+                    "Username or password fields are blank", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool validUser = Database.authenticateUser(txtUsername.Text, txtPassword.Text);
+
+            if (validUser) {
+                getInstance().Hide();
+                authenticated.getInstance().Show();
+            } else {
+                MessageBox.Show("Your username or password is incorrect, please try again or register a new account.",
+                    "Username or password incorrect.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                handleLogin();
+            }
         }
     }
 }

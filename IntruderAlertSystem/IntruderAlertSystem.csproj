@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="authenticated.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="authenticated.Designer.cs">
+      <DependentUpon>authenticated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Common.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Login.cs">
@@ -77,6 +83,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="authenticated.resx">
+      <DependentUpon>authenticated.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

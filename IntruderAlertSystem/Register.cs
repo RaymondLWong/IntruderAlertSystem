@@ -25,6 +25,7 @@ namespace IntruderAlertSystem {
         }
 
         private bool checkUsernameUnique() {
+            // TODO: check username is unique
             return false;
         }
 
@@ -82,7 +83,7 @@ namespace IntruderAlertSystem {
 
         private void returnToLogin() {
             Login.getInstance().Show();
-            this.Hide();
+            getInstance().Hide();
         }
 
         private void btnBack_Click(object sender, EventArgs e) {
