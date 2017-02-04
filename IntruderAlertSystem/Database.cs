@@ -48,7 +48,7 @@ namespace IntruderAlertSystem {
 
         public static bool authenticateUser(string username, string password) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = '@uname'", con);
+            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = @uname", con);
             cmd.Parameters.Add(new MySqlParameter("@uname", username));
 
             //Console.WriteLine(String.Format("sql: {0}", cmd.CommandText));
