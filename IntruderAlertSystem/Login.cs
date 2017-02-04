@@ -58,8 +58,8 @@ namespace IntruderAlertSystem {
             bool validUser = Database.authenticateUser(txtUsername.Text, txtPassword.Text);
 
             if (validUser) {
-                getInstance().Hide();
                 authenticated.getInstance().Show();
+                getInstance().Hide();
             } else {
                 MessageBox.Show("Your username or password is incorrect, please try again or register a new account.",
                     "Username or password incorrect.", MessageBoxButtons.OK, MessageBoxIcon.Error);
