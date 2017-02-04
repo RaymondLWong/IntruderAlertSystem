@@ -24,11 +24,6 @@ namespace IntruderAlertSystem {
             return register;
         }
 
-        private bool checkUsernameUnique() {
-            // TODO: check username is unique
-            return false;
-        }
-
         private bool verifyPassword() {
             return txtPassword.Text == txtPassword2.Text;
         }
@@ -39,7 +34,7 @@ namespace IntruderAlertSystem {
                 return;
             }
             
-            bool uniqueUsername = checkUsernameUnique();
+            bool uniqueUsername = Database.checkUserDoesNotExist(txtUsername.Text);
             bool passwordSame = verifyPassword();
 
             // show an error message displaying incorrect requirements
@@ -57,12 +52,16 @@ namespace IntruderAlertSystem {
                 string title = "Incorrect username or password requirements";
                 MessageBox.Show(errorMessage, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                return;
             } else {
                 // create a new user in the database
-
-
+                byte[] salt = PasswordHashWithPBKDF2.generateSalt();
+                byte[] pw = PasswordHashWithPBKDF2.hashPassword(txtPassword.Text, salt);
                 // create a new salt, hash password and store both in db
-                // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
+                Database.createUser(txtUsername.Text, pw, salt);
+
+                MessageBox.Show("Your acccount has been created successfully. You may now login.",
+                    "Account created", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // clear the data so a new user can login
                 clearData();

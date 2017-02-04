@@ -19,6 +19,36 @@ namespace IntruderAlertSystem {
             return con;
         }
 
+        public static bool checkUserDoesNotExist(string username) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @uname", con);
+
+            MySqlParameter paramUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
+            paramUsername.Value = username;
+            cmd.Parameters.Add(paramUsername);
+
+            bool userExists = false;
+            MySqlDataReader reader;
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                reader = cmd.ExecuteReader();
+                if (reader.Read()) {
+                    userExists = true;
+                }
+
+                reader.Close();
+            } catch (MySqlException MySqlE) {
+                throw MySqlE;
+            } finally {
+                con.Close();
+            }
+
+            return !userExists;
+        }
+
         public static void createUser(string username, byte[] password, byte[] salt) {
             MySqlConnection con = getDBConection();
             MySqlCommand cmd = new MySqlCommand("INSERT INTO users (Username, PasswordHash, PasswordSalt) VALUES (@uname, @pw, @salt);", con);
@@ -43,7 +73,6 @@ namespace IntruderAlertSystem {
             } finally {
                 con.Close();
             }
-
         }
 
         public static bool authenticateUser(string username, string password) {
