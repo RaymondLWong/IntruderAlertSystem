@@ -23,6 +23,7 @@ namespace IntruderAlertSystem {
             MySqlConnection con = getDBConection();
             MySqlCommand cmd = new MySqlCommand("INSERT INTO users (Username, PasswordHash, PasswordSalt) VALUES (@uname, @pw, @salt);", con);
 
+            // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
             MySqlParameter paramUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
             MySqlParameter paramPw = new MySqlParameter("@pw", MySqlDbType.VarBinary);
             MySqlParameter paramSalt = new MySqlParameter("@salt", MySqlDbType.VarBinary);
@@ -48,19 +49,19 @@ namespace IntruderAlertSystem {
 
         public static bool authenticateUser(string username, string password) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = '@uname'", con);
+            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = @uname", con);
             cmd.Parameters.Add(new MySqlParameter("@uname", username));
 
             //Console.WriteLine(String.Format("sql: {0}", cmd.CommandText));
-
-            con.Open();
-            cmd.ExecuteNonQuery();
 
             MySqlDataReader reader;
             byte[] salt = null;
             byte[] storedPw = null;
 
             try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
                 reader = cmd.ExecuteReader();
                 if (reader.Read()) {
                     salt = (byte[])reader["PasswordSalt"];
@@ -92,6 +93,35 @@ namespace IntruderAlertSystem {
             createUser("testUser123", pw, salt);
         }
 
+        public static bool checkUsernameUnique(string username) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @user", con);
+            cmd.Parameters.Add(new MySqlParameter("@user", username));
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+
+            MySqlDataReader reader;
+            bool unique = true;
+
+            try {
+                reader = cmd.ExecuteReader();
+
+                if (reader.Read()) {
+                    unique = false;
+                }
+
+                reader.Close();
+
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return unique;
+        }
+
         public static void testDBConnection() {
             MySqlConnection con = getDBConection();
             //MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE UserId=@UID", con);
@@ -113,7 +143,7 @@ namespace IntruderAlertSystem {
                 //Console.WriteLine(String.Format("username is: '{0}'", uname));
 
                 reader = cmd.ExecuteReader();
-                if (reader.Read()) {
+                while (reader.Read()) {
                     string s = reader.GetString("Username");
                     Console.WriteLine(String.Format("username is: '{0}'", s));
                 }

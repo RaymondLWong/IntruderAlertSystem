@@ -35,10 +35,6 @@ namespace IntruderAlertSystem {
             getInstance().Hide();
         }
 
-        private void clearData() {
-
-        }
-
         private void btnReset_Click(object sender, EventArgs e) {
             txtUsername.Text = "";
             txtPassword.Text = "";

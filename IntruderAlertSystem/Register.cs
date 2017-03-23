@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,11 +25,6 @@ namespace IntruderAlertSystem {
             return register;
         }
 
-        private bool checkUsernameUnique() {
-            // TODO: check username is unique
-            return false;
-        }
-
         private bool verifyPassword() {
             return txtPassword.Text == txtPassword2.Text;
         }
@@ -39,7 +35,7 @@ namespace IntruderAlertSystem {
                 return;
             }
             
-            bool uniqueUsername = checkUsernameUnique();
+            bool uniqueUsername = Database.checkUsernameUnique(txtUsername.Text);
             bool passwordSame = verifyPassword();
 
             // show an error message displaying incorrect requirements
@@ -58,13 +54,14 @@ namespace IntruderAlertSystem {
                 MessageBox.Show(errorMessage, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             } else {
+                // generate a salt and hash the password
+                byte[] salt = PasswordHashWithPBKDF2.generateSalt();
+                byte[] hash = PasswordHashWithPBKDF2.hashPassword(txtPassword.Text, salt);
+
                 // create a new user in the database
+                Database.createUser(txtUsername.Text, hash, salt);
 
-
-                // create a new salt, hash password and store both in db
-                // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
-
-                // clear the data so a new user can login
+                // clear the data so a new user can register
                 clearData();
             }
 
