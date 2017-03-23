@@ -1,12 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace IntruderAlertSystem {
@@ -54,8 +46,8 @@ namespace IntruderAlertSystem {
             bool validUser = Database.authenticateUser(txtUsername.Text, txtPassword.Text);
 
             if (validUser) {
-                getInstance().Hide();
                 authenticated.getInstance().Show();
+                getInstance().Hide();
             } else {
                 MessageBox.Show("Your username or password is incorrect, please try again or register a new account.",
                     "Username or password incorrect.", MessageBoxButtons.OK, MessageBoxIcon.Error);

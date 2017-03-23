@@ -1,10 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntruderAlertSystem {
     class Database {
@@ -17,6 +12,36 @@ namespace IntruderAlertSystem {
             }
 
             return con;
+        }
+
+        public static bool checkUserDoesNotExist(string username) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @uname", con);
+
+            MySqlParameter paramUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
+            paramUsername.Value = username;
+            cmd.Parameters.Add(paramUsername);
+
+            bool userExists = false;
+            MySqlDataReader reader;
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                reader = cmd.ExecuteReader();
+                if (reader.Read()) {
+                    userExists = true;
+                }
+
+                reader.Close();
+            } catch (MySqlException MySqlE) {
+                throw MySqlE;
+            } finally {
+                con.Close();
+            }
+
+            return !userExists;
         }
 
         public static void createUser(string username, byte[] password, byte[] salt) {
@@ -44,7 +69,6 @@ namespace IntruderAlertSystem {
             } finally {
                 con.Close();
             }
-
         }
 
         public static bool authenticateUser(string username, string password) {

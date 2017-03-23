@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography;
-using BCrypt.Net;
-using static System.Security.Cryptography.Rfc2898DeriveBytes;
 using System.Linq;
 
 namespace IntruderAlertSystem {
