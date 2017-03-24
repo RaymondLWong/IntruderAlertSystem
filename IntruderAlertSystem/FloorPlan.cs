@@ -64,6 +64,10 @@ namespace IntruderAlertSystem {
 
             // add table to form
             getInstance().Controls.Add(dgv);
+
+            // set the form size to be the table with some padding
+            int padding = START_LOCATION * 2;
+            getInstance().ClientSize = new Size(dgv.Height + padding, dgv.Width + padding);
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
