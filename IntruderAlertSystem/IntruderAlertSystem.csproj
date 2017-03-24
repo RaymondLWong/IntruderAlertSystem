@@ -63,6 +63,12 @@
     </Compile>
     <Compile Include="Common.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="FloorPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FloorPlan.Designer.cs">
+      <DependentUpon>FloorPlan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="authenticated.resx">
       <DependentUpon>authenticated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FloorPlan.resx">
+      <DependentUpon>FloorPlan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

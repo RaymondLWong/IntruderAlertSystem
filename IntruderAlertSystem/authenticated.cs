@@ -16,5 +16,9 @@ namespace IntruderAlertSystem {
         public authenticated() {
             InitializeComponent();
         }
+
+        private void btnCreate_Click(object sender, System.EventArgs e) {
+            FloorPlan.getInstance().Show();
+        }
     }
 }

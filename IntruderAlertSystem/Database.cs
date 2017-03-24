@@ -14,39 +14,18 @@ namespace IntruderAlertSystem {
             return con;
         }
 
-        public static bool checkUserDoesNotExist(string username) {
-            MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @uname", con);
-
-            MySqlParameter paramUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
-            paramUsername.Value = username;
-            cmd.Parameters.Add(paramUsername);
-
-            bool userExists = false;
-            MySqlDataReader reader;
-
-            try {
-                con.Open();
-                cmd.ExecuteNonQuery();
-
-                reader = cmd.ExecuteReader();
-                if (reader.Read()) {
-                    userExists = true;
-                }
-
-                reader.Close();
-            } catch (MySqlException MySqlE) {
-                throw MySqlE;
-            } finally {
-                con.Close();
-            }
-
-            return !userExists;
-        }
-
         public static void createUser(string username, byte[] password, byte[] salt) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO users (Username, PasswordHash, PasswordSalt) VALUES (@uname, @pw, @salt);", con);
+            MySqlCommand cmd = new MySqlCommand(@"
+INSERT INTO users (
+    Username, 
+    PasswordHash, 
+    PasswordSalt
+) VALUES (
+    @uname,
+    @pw,
+    @salt
+)", con);
 
             // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
             MySqlParameter paramUsername = new MySqlParameter("@uname", MySqlDbType.VarChar);
@@ -108,15 +87,6 @@ namespace IntruderAlertSystem {
             return PasswordHashWithPBKDF2.compareWithStoredPassword(password, storedPw, salt);
         }
 
-        public static void testCreateUser() {
-            byte[] salt = PasswordHashWithPBKDF2.generateSalt();
-            byte[] pw = PasswordHashWithPBKDF2.hashPassword("pass", salt);
-
-            Console.WriteLine(String.Format("salt: {0} ; pw: {1}", Convert.ToBase64String(salt), Convert.ToBase64String(pw)));
-
-            createUser("testUser123", pw, salt);
-        }
-
         public static bool checkUsernameUnique(string username) {
             MySqlConnection con = getDBConection();
             MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @user", con);
@@ -144,41 +114,6 @@ namespace IntruderAlertSystem {
             }
 
             return unique;
-        }
-
-        public static void testDBConnection() {
-            MySqlConnection con = getDBConection();
-            //MySqlCommand cmd = new MySqlCommand("SELECT * FROM users WHERE UserId=@UID", con);
-            //cmd.Parameters.Add(new MySqlParameter("@UID", 23));
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM users", con);
-
-            con.Open();
-            cmd.ExecuteNonQuery();
-
-            //DataSet ds = new DataSet();
-            //MySqlDataAdapter dAdap = new MySqlDataAdapter();
-            //dAdap.SelectCommand = cmd;
-            //dAdap.Fill(ds, "Username");
-
-            MySqlDataReader reader;
-
-            try {
-                //string uname = ds.Tables["Username"].Rows[0].ToString();
-                //Console.WriteLine(String.Format("username is: '{0}'", uname));
-
-                reader = cmd.ExecuteReader();
-                while (reader.Read()) {
-                    string s = reader.GetString("Username");
-                    Console.WriteLine(String.Format("username is: '{0}'", s));
-                }
-
-                reader.Close();
-
-            } catch (Exception ex) {
-                throw ex;
-            } finally {
-                con.Close();
-            }
         }
     }
 }
