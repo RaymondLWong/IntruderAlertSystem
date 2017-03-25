@@ -27,9 +27,8 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.gpbFloorPlan = new System.Windows.Forms.GroupBox();
             this.lblHeight = new System.Windows.Forms.Label();
-            this.cboFloorLength = new System.Windows.Forms.ComboBox();
-            this.lblLength = new System.Windows.Forms.Label();
-            this.cboFloorHeight = new System.Windows.Forms.ComboBox();
+            this.cboFloorSize = new System.Windows.Forms.ComboBox();
+            this.lblUnit = new System.Windows.Forms.Label();
             this.gpbFloorPlan.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,10 +54,9 @@
             // 
             // gpbFloorPlan
             // 
+            this.gpbFloorPlan.Controls.Add(this.lblUnit);
             this.gpbFloorPlan.Controls.Add(this.lblHeight);
-            this.gpbFloorPlan.Controls.Add(this.cboFloorLength);
-            this.gpbFloorPlan.Controls.Add(this.lblLength);
-            this.gpbFloorPlan.Controls.Add(this.cboFloorHeight);
+            this.gpbFloorPlan.Controls.Add(this.cboFloorSize);
             this.gpbFloorPlan.Location = new System.Drawing.Point(372, 123);
             this.gpbFloorPlan.Name = "gpbFloorPlan";
             this.gpbFloorPlan.Size = new System.Drawing.Size(200, 126);
@@ -71,34 +69,26 @@
             this.lblHeight.AutoSize = true;
             this.lblHeight.Location = new System.Drawing.Point(19, 55);
             this.lblHeight.Name = "lblHeight";
-            this.lblHeight.Size = new System.Drawing.Size(64, 13);
+            this.lblHeight.Size = new System.Drawing.Size(53, 13);
             this.lblHeight.TabIndex = 4;
-            this.lblHeight.Text = "Floor Height";
+            this.lblHeight.Text = "Floor Size";
             // 
-            // cboFloorLength
+            // cboFloorSize
             // 
-            this.cboFloorLength.FormattingEnabled = true;
-            this.cboFloorLength.Location = new System.Drawing.Point(91, 25);
-            this.cboFloorLength.Name = "cboFloorLength";
-            this.cboFloorLength.Size = new System.Drawing.Size(36, 21);
-            this.cboFloorLength.TabIndex = 1;
+            this.cboFloorSize.FormattingEnabled = true;
+            this.cboFloorSize.Location = new System.Drawing.Point(91, 52);
+            this.cboFloorSize.Name = "cboFloorSize";
+            this.cboFloorSize.Size = new System.Drawing.Size(36, 21);
+            this.cboFloorSize.TabIndex = 2;
             // 
-            // lblLength
+            // lblUnit
             // 
-            this.lblLength.AutoSize = true;
-            this.lblLength.Location = new System.Drawing.Point(19, 28);
-            this.lblLength.Name = "lblLength";
-            this.lblLength.Size = new System.Drawing.Size(66, 13);
-            this.lblLength.TabIndex = 3;
-            this.lblLength.Text = "Floor Length";
-            // 
-            // cboFloorHeight
-            // 
-            this.cboFloorHeight.FormattingEnabled = true;
-            this.cboFloorHeight.Location = new System.Drawing.Point(91, 52);
-            this.cboFloorHeight.Name = "cboFloorHeight";
-            this.cboFloorHeight.Size = new System.Drawing.Size(36, 21);
-            this.cboFloorHeight.TabIndex = 2;
+            this.lblUnit.AutoSize = true;
+            this.lblUnit.Location = new System.Drawing.Point(133, 55);
+            this.lblUnit.Name = "lblUnit";
+            this.lblUnit.Size = new System.Drawing.Size(19, 13);
+            this.lblUnit.TabIndex = 5;
+            this.lblUnit.Text = "^2";
             // 
             // authenticated
             // 
@@ -124,8 +114,7 @@
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.GroupBox gpbFloorPlan;
         private System.Windows.Forms.Label lblHeight;
-        private System.Windows.Forms.ComboBox cboFloorLength;
-        private System.Windows.Forms.Label lblLength;
-        private System.Windows.Forms.ComboBox cboFloorHeight;
+        private System.Windows.Forms.ComboBox cboFloorSize;
+        private System.Windows.Forms.Label lblUnit;
     }
 }

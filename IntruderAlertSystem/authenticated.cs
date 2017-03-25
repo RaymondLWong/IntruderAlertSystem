@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace IntruderAlertSystem {
     public partial class authenticated : Form {
@@ -18,21 +20,33 @@ namespace IntruderAlertSystem {
         }
 
         private void btnCreate_Click(object sender, System.EventArgs e) {
-            int length = (int)cboFloorLength.SelectedValue;
-            int height = (int)cboFloorHeight.SelectedValue;
+            int size = (int)cboFloorSize.SelectedValue;
 
-            FloorPlan.getInstance(length, height).Show();
+            FloorPlan.getInstance(size, size).Show();
         }
 
         private void authenticated_Load(object sender, System.EventArgs e) {
-            int[] roomIndexes = new int[5];
+            setupFloorLengthsForComboBoxes(2, 5);
 
-            for (int i = 0; i < roomIndexes.Length; i++) {
+            setComboboxSelectedItemToLast(ref cboFloorSize);
+        }
+
+        private void setupFloorLengthsForComboBoxes(int min, int limit) {
+            min -= 2;
+            int[] roomIndexes = new int[limit];
+
+            for (int i = min; i < roomIndexes.Length; i++) {
                 roomIndexes[i] = i + 1;
             }
 
-            cboFloorHeight.DataSource = roomIndexes.Clone();
-            cboFloorLength.DataSource = roomIndexes.Clone();
+            // BUG: for some reason using Array.Clone() created an extra element at the start (0)
+            // but using .skip(1) removes the fake 0 and the actual first element
+            // so the minimum number has been decreased by an extra one to counteract the bug
+            cboFloorSize.DataSource = roomIndexes.Skip(1).ToArray();
+        }
+
+        private void setComboboxSelectedItemToLast(ref ComboBox cbo) {
+            cbo.SelectedIndex = cbo.Items.Count - 1;
         }
     }
 }

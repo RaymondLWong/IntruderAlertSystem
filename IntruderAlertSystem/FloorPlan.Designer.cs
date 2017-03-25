@@ -26,14 +26,7 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.gpbRoomInfo = new System.Windows.Forms.GroupBox();
             this.gpbSensorInfo = new System.Windows.Forms.GroupBox();
-            this.cboFloorHeight = new System.Windows.Forms.ComboBox();
-            this.lblLength = new System.Windows.Forms.Label();
-            this.cboFloorLength = new System.Windows.Forms.ComboBox();
-            this.lblHeight = new System.Windows.Forms.Label();
-            this.btnUpdateFloorPlan = new System.Windows.Forms.Button();
-            this.gpbFloorPlan = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            this.gpbFloorPlan.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgv
@@ -63,64 +56,6 @@
             this.gpbSensorInfo.TabStop = false;
             this.gpbSensorInfo.Text = "Sensor Information";
             // 
-            // cboFloorHeight
-            // 
-            this.cboFloorHeight.FormattingEnabled = true;
-            this.cboFloorHeight.Location = new System.Drawing.Point(91, 52);
-            this.cboFloorHeight.Name = "cboFloorHeight";
-            this.cboFloorHeight.Size = new System.Drawing.Size(36, 21);
-            this.cboFloorHeight.TabIndex = 2;
-            // 
-            // lblLength
-            // 
-            this.lblLength.AutoSize = true;
-            this.lblLength.Location = new System.Drawing.Point(19, 28);
-            this.lblLength.Name = "lblLength";
-            this.lblLength.Size = new System.Drawing.Size(66, 13);
-            this.lblLength.TabIndex = 3;
-            this.lblLength.Text = "Floor Length";
-            // 
-            // cboFloorLength
-            // 
-            this.cboFloorLength.FormattingEnabled = true;
-            this.cboFloorLength.Location = new System.Drawing.Point(91, 25);
-            this.cboFloorLength.Name = "cboFloorLength";
-            this.cboFloorLength.Size = new System.Drawing.Size(36, 21);
-            this.cboFloorLength.TabIndex = 1;
-            // 
-            // lblHeight
-            // 
-            this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(19, 55);
-            this.lblHeight.Name = "lblHeight";
-            this.lblHeight.Size = new System.Drawing.Size(64, 13);
-            this.lblHeight.TabIndex = 4;
-            this.lblHeight.Text = "Floor Height";
-            // 
-            // btnUpdateFloorPlan
-            // 
-            this.btnUpdateFloorPlan.Location = new System.Drawing.Point(22, 85);
-            this.btnUpdateFloorPlan.Name = "btnUpdateFloorPlan";
-            this.btnUpdateFloorPlan.Size = new System.Drawing.Size(105, 23);
-            this.btnUpdateFloorPlan.TabIndex = 5;
-            this.btnUpdateFloorPlan.Text = "Update floor plan";
-            this.btnUpdateFloorPlan.UseVisualStyleBackColor = true;
-            this.btnUpdateFloorPlan.Click += new System.EventHandler(this.btnUpdateFloorPlan_Click);
-            // 
-            // gpbFloorPlan
-            // 
-            this.gpbFloorPlan.Controls.Add(this.btnUpdateFloorPlan);
-            this.gpbFloorPlan.Controls.Add(this.lblHeight);
-            this.gpbFloorPlan.Controls.Add(this.cboFloorLength);
-            this.gpbFloorPlan.Controls.Add(this.lblLength);
-            this.gpbFloorPlan.Controls.Add(this.cboFloorHeight);
-            this.gpbFloorPlan.Location = new System.Drawing.Point(546, 25);
-            this.gpbFloorPlan.Name = "gpbFloorPlan";
-            this.gpbFloorPlan.Size = new System.Drawing.Size(200, 126);
-            this.gpbFloorPlan.TabIndex = 5;
-            this.gpbFloorPlan.TabStop = false;
-            this.gpbFloorPlan.Text = "Floor Plan";
-            // 
             // FloorPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -128,7 +63,6 @@
             this.ClientSize = new System.Drawing.Size(831, 561);
             this.Controls.Add(this.gpbSensorInfo);
             this.Controls.Add(this.gpbRoomInfo);
-            this.Controls.Add(this.gpbFloorPlan);
             this.Controls.Add(this.dgv);
             this.Name = "FloorPlan";
             this.Text = "FloorPlan";
@@ -136,8 +70,6 @@
             this.Load += new System.EventHandler(this.FloorPlan_Load);
             this.LocationChanged += new System.EventHandler(this.FloorPlan_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
-            this.gpbFloorPlan.ResumeLayout(false);
-            this.gpbFloorPlan.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -147,11 +79,5 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.GroupBox gpbRoomInfo;
         private System.Windows.Forms.GroupBox gpbSensorInfo;
-        private System.Windows.Forms.ComboBox cboFloorHeight;
-        private System.Windows.Forms.Label lblLength;
-        private System.Windows.Forms.ComboBox cboFloorLength;
-        private System.Windows.Forms.Label lblHeight;
-        private System.Windows.Forms.Button btnUpdateFloorPlan;
-        private System.Windows.Forms.GroupBox gpbFloorPlan;
     }
 }
