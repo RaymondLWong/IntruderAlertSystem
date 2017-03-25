@@ -12,23 +12,51 @@ namespace IntruderAlertSystem {
     public partial class FloorPlan : Form {
 
         private static FloorPlan floorPlan = null;
+        private const int START_LOCATION = 25;
 
-        public FloorPlan() {
+        private static int floorLength = -1;
+        private static int floorHeight = -1;
+
+        private static bool createNewFloorPlan = true;
+
+        public FloorPlan(int a, int b) {
             InitializeComponent();
+
+            floorLength = a;
+            floorHeight = b;
+            Console.WriteLine($"constructor(); len: {floorLength}, height: {floorHeight}");
+            setupNewFloorPlan(floorLength, floorHeight);
+            if (newFloorPlan()) {
+                //setupNewFloorPlan(floorLength, floorHeight);
+            }
         }
-        public static Form getInstance() {
+
+        private bool newFloorPlan() {
+            Console.WriteLine($"newFloorPlan(); len: {floorLength}, height: {floorHeight}");
+            return (floorLength != -1 && floorHeight != -1);
+        }
+
+        public static Form getInstance(int length = -1, int height = -1) {
             if (floorPlan == null) {
-                floorPlan = new FloorPlan();
+                floorPlan = new FloorPlan(3, 3);
+            }
+
+            Console.WriteLine($"getInstance({length}, {height});");
+
+            if (length != -1 && height != -1) {
+                floorLength = length;
+                floorHeight = height;
             }
 
             return floorPlan;
         }
-        private void FloorPlan_Load(object sender, EventArgs e) {
-            // disallow user resizing or maximising of form
-            // http://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-form
-            getInstance().FormBorderStyle = FormBorderStyle.FixedSingle;
-            getInstance().MaximizeBox = false;
 
+        public static void reset() {
+            floorPlan = null;
+            createNewFloorPlan = true;
+        }
+
+        private DataGridView createFloorPlan(int length, int height) {
             // use a table as base for floor plan visualisation
             DataGridView dgv = new DataGridView();
             // Remove headings because we only want cells,
@@ -43,11 +71,10 @@ namespace IntruderAlertSystem {
             dgv.AllowUserToResizeRows = false;
 
             // setup number of rooms
-            dgv.ColumnCount = 5;
-            dgv.RowCount = 5;
+            dgv.ColumnCount = length;
+            dgv.RowCount = height;
 
             // set start location to top-left corner
-            const int START_LOCATION = 25;
             dgv.Location = new Point(START_LOCATION, START_LOCATION);
 
             // set cell lengths to be square and decently sized, so it represents a "room"
@@ -76,6 +103,25 @@ namespace IntruderAlertSystem {
             // add cell click event to dgv
             dgv.CellClick += new DataGridViewCellEventHandler(this.FloorPlan_CellClick);
 
+            return dgv;
+        }
+
+        private void setupNewFloorPlan(int length, int height) {
+            if (!createNewFloorPlan) { return; }
+            // dispose of the existing form
+            //getInstance().Dispose();
+
+            // sync values
+            floorHeight = height;
+            floorLength = length;
+
+            // disallow user resizing or maximising of form
+            // http://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-form
+            getInstance().FormBorderStyle = FormBorderStyle.FixedSingle;
+            getInstance().MaximizeBox = false;
+
+            DataGridView dgv = createFloorPlan(length, height);
+
             // add table to form
             // Adding Controls to Windows Forms: https://msdn.microsoft.com/en-us/library/aa984255(v=vs.71).aspx
             getInstance().Controls.Add(dgv);
@@ -85,7 +131,24 @@ namespace IntruderAlertSystem {
             getInstance().ClientSize = new Size(dgv.Height + padding, dgv.Width + padding);
 
             HomeConfig.getInstance().Show();
+
+            // setup the config to dock to the Floor Plan
             HomeConfig.getInstance().Left = getInstance().Right;
+            HomeConfig.getInstance().Top = getInstance().Top;
+            getInstance().LocationChanged += FloorPlan_LocationChanged;
+
+            createNewFloorPlan = false;
+        }
+
+        private void FloorPlan_Load(object sender, EventArgs e) {
+            //if (!newFloorPlan()) {
+            //    Console.WriteLine("new floor plan");
+            //    setupNewFloorPlan(5, 5);
+            //} else {
+            //    Console.WriteLine("NO new floor plan");
+            //}
+
+            //setupNewFloorPlan(5, 5);
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {

@@ -23,75 +23,81 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.cboHouseLength = new System.Windows.Forms.ComboBox();
+            this.cboHouseHeight = new System.Windows.Forms.ComboBox();
+            this.lblLength = new System.Windows.Forms.Label();
+            this.lblHeight = new System.Windows.Forms.Label();
+            this.btnUpdateSize = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // cboHouseLength
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5});
-            this.dataGridView1.Location = new System.Drawing.Point(233, 124);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.cboHouseLength.FormattingEnabled = true;
+            this.cboHouseLength.Location = new System.Drawing.Point(235, 99);
+            this.cboHouseLength.Name = "cboHouseLength";
+            this.cboHouseLength.Size = new System.Drawing.Size(37, 21);
+            this.cboHouseLength.TabIndex = 0;
             // 
-            // Column1
+            // cboHouseHeight
             // 
-            this.Column1.HeaderText = "Column1";
-            this.Column1.Name = "Column1";
+            this.cboHouseHeight.FormattingEnabled = true;
+            this.cboHouseHeight.Location = new System.Drawing.Point(359, 99);
+            this.cboHouseHeight.Name = "cboHouseHeight";
+            this.cboHouseHeight.Size = new System.Drawing.Size(37, 21);
+            this.cboHouseHeight.TabIndex = 1;
             // 
-            // Column2
+            // lblLength
             // 
-            this.Column2.HeaderText = "Column2";
-            this.Column2.Name = "Column2";
+            this.lblLength.AutoSize = true;
+            this.lblLength.Location = new System.Drawing.Point(189, 102);
+            this.lblLength.Name = "lblLength";
+            this.lblLength.Size = new System.Drawing.Size(40, 13);
+            this.lblLength.TabIndex = 2;
+            this.lblLength.Text = "Length";
             // 
-            // Column3
+            // lblHeight
             // 
-            this.Column3.HeaderText = "Column3";
-            this.Column3.Name = "Column3";
+            this.lblHeight.AutoSize = true;
+            this.lblHeight.Location = new System.Drawing.Point(313, 102);
+            this.lblHeight.Name = "lblHeight";
+            this.lblHeight.Size = new System.Drawing.Size(38, 13);
+            this.lblHeight.TabIndex = 3;
+            this.lblHeight.Text = "Height";
             // 
-            // Column4
+            // btnUpdateSize
             // 
-            this.Column4.HeaderText = "Column4";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Column5";
-            this.Column5.Name = "Column5";
+            this.btnUpdateSize.Location = new System.Drawing.Point(316, 197);
+            this.btnUpdateSize.Name = "btnUpdateSize";
+            this.btnUpdateSize.Size = new System.Drawing.Size(122, 23);
+            this.btnUpdateSize.TabIndex = 4;
+            this.btnUpdateSize.Text = "Update house size";
+            this.btnUpdateSize.UseVisualStyleBackColor = true;
+            this.btnUpdateSize.Click += new System.EventHandler(this.btnUpdateSize_Click);
             // 
             // HomeConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 456);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.btnUpdateSize);
+            this.Controls.Add(this.lblHeight);
+            this.Controls.Add(this.lblLength);
+            this.Controls.Add(this.cboHouseHeight);
+            this.Controls.Add(this.cboHouseLength);
             this.Name = "HomeConfig";
             this.Text = "HomeConfig";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.HomeConfig_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.ComboBox cboHouseLength;
+        private System.Windows.Forms.ComboBox cboHouseHeight;
+        private System.Windows.Forms.Label lblLength;
+        private System.Windows.Forms.Label lblHeight;
+        private System.Windows.Forms.Button btnUpdateSize;
     }
 }

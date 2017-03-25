@@ -18,7 +18,7 @@ namespace IntruderAlertSystem {
         }
 
         private void btnCreate_Click(object sender, System.EventArgs e) {
-            FloorPlan.getInstance().Show();
+            FloorPlan.getInstance(5, 5).Show();
         }
     }
 }

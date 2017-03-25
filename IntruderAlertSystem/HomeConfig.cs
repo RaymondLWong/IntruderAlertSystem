@@ -23,8 +23,25 @@ namespace IntruderAlertSystem {
             return homeConfig;
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) {
-            Console.WriteLine($"x: {e.ColumnIndex}, y: {e.RowIndex}");
+        private void btnUpdateSize_Click(object sender, EventArgs e) {
+            int length = (int)cboHouseLength.SelectedValue;
+            int height = (int)cboHouseHeight.SelectedValue;
+            Console.WriteLine($"length: {length}, height: {height}");
+
+            FloorPlan.reset();
+            FloorPlan.getInstance(length, height);
+        }
+
+        private void HomeConfig_Load(object sender, EventArgs e) {
+            int MAX_ROOMS = 5;
+            int[] roomIndexes = new int[MAX_ROOMS];
+
+            for (int i = 0; i < roomIndexes.Length; i++) {
+                roomIndexes[i] = i + 1;
+            }
+
+            cboHouseHeight.DataSource = roomIndexes.Clone();
+            cboHouseLength.DataSource = roomIndexes.Clone();
         }
     }
 }
