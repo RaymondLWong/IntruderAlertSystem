@@ -34,6 +34,7 @@
             this.Text = "FloorPlan";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FloorPlan_FormClosing);
             this.Load += new System.EventHandler(this.FloorPlan_Load);
+            this.LocationChanged += new System.EventHandler(this.FloorPlan_LocationChanged);
             this.ResumeLayout(false);
 
         }

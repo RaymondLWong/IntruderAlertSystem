@@ -85,6 +85,7 @@ namespace IntruderAlertSystem {
             getInstance().ClientSize = new Size(dgv.Height + padding, dgv.Width + padding);
 
             HomeConfig.getInstance().Show();
+            HomeConfig.getInstance().Left = getInstance().Right;
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
@@ -93,6 +94,14 @@ namespace IntruderAlertSystem {
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
             Common.confirmClose(ref e);
+        }
+
+        private void FloorPlan_LocationChanged(object sender, EventArgs e) {
+            Form fp = getInstance();
+            Point loc = fp.Location;
+            Console.WriteLine($"x: {loc.X}, y: {loc.Y}");
+
+            HomeConfig.getInstance().Left = fp.Right;
         }
     }
 }
