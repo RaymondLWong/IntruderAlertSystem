@@ -25,16 +25,7 @@ namespace IntruderAlertSystem {
         }
 
         private void setupFloorPlan(int length, int height) {
-            // Remove headings because we only want cells,
-            // which makes the table look more like a floor plan.
-            dgv.RowHeadersVisible = false;
-            dgv.ColumnHeadersVisible = false;
-
-            // disable selection of mulitple rooms
-            // and don't allow user to resize cells
-            dgv.MultiSelect = false;
-            dgv.AllowUserToResizeColumns = false;
-            dgv.AllowUserToResizeRows = false;
+            // TODO: cell sizes don't change on update
 
             // setup number of rooms
             dgv.ColumnCount = length;
@@ -51,6 +42,23 @@ namespace IntruderAlertSystem {
             foreach (DataGridViewRow row in dgv.Rows) {
                 row.Height = CELL_WIDTH;
             }
+        }
+
+        private void setComboboxSelectedItemToLast(ref ComboBox cbo) {
+            cbo.SelectedIndex = cbo.Items.Count - 1;
+        }
+
+        private void setupDGV() {
+            // Remove headings because we only want cells,
+            // which makes the table look more like a floor plan.
+            dgv.RowHeadersVisible = false;
+            dgv.ColumnHeadersVisible = false;
+
+            // disable selection of mulitple rooms
+            // and don't allow user to resize cells
+            dgv.MultiSelect = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
 
             // remove the redundant scroll bars
             dgv.ScrollBars = ScrollBars.None;
@@ -65,10 +73,29 @@ namespace IntruderAlertSystem {
             getInstance().FormBorderStyle = FormBorderStyle.FixedSingle;
             getInstance().MaximizeBox = false;
 
-            setupFloorPlan(5, 5);
+            setupDGV();
+
+            // setup floor plan cells and combobox values
+            const int MAX_ROOMS = 5;
+            setupFloorLengthsForComboBoxes(MAX_ROOMS);
+            setupFloorPlan(MAX_ROOMS, MAX_ROOMS);
+
+            setComboboxSelectedItemToLast(ref cboHouseHeight);
+            setComboboxSelectedItemToLast(ref cboHouseLength);
 
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
+        }
+
+        private void setupFloorLengthsForComboBoxes(int limit) {
+            int[] roomIndexes = new int[limit];
+
+            for (int i = 0; i < roomIndexes.Length; i++) {
+                roomIndexes[i] = i + 1;
+            }
+
+            cboHouseHeight.DataSource = roomIndexes.Clone();
+            cboHouseLength.DataSource = roomIndexes.Clone();
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
@@ -88,8 +115,8 @@ namespace IntruderAlertSystem {
         }
 
         private void btnUpdateFloorPlan_Click(object sender, EventArgs e) {
-            int length = (int)cboLength.SelectedValue;
-            int height = (int)cboHeight.SelectedValue;
+            int length = (int)cboHouseLength.SelectedValue;
+            int height = (int)cboHouseHeight.SelectedValue;
             setupFloorPlan(length, height);
         }
     }

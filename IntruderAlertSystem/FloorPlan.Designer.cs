@@ -24,8 +24,8 @@
         /// </summary>
         private void InitializeComponent() {
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.cboLength = new System.Windows.Forms.ComboBox();
-            this.cboHeight = new System.Windows.Forms.ComboBox();
+            this.cboHouseLength = new System.Windows.Forms.ComboBox();
+            this.cboHouseHeight = new System.Windows.Forms.ComboBox();
             this.lblLength = new System.Windows.Forms.Label();
             this.lblHeight = new System.Windows.Forms.Label();
             this.gpbFloorPlan = new System.Windows.Forms.GroupBox();
@@ -42,21 +42,21 @@
             this.dgv.Size = new System.Drawing.Size(500, 500);
             this.dgv.TabIndex = 0;
             // 
-            // cboLength
+            // cboHouseLength
             // 
-            this.cboLength.FormattingEnabled = true;
-            this.cboLength.Location = new System.Drawing.Point(91, 25);
-            this.cboLength.Name = "cboLength";
-            this.cboLength.Size = new System.Drawing.Size(36, 21);
-            this.cboLength.TabIndex = 1;
+            this.cboHouseLength.FormattingEnabled = true;
+            this.cboHouseLength.Location = new System.Drawing.Point(91, 25);
+            this.cboHouseLength.Name = "cboHouseLength";
+            this.cboHouseLength.Size = new System.Drawing.Size(36, 21);
+            this.cboHouseLength.TabIndex = 1;
             // 
-            // cboHeight
+            // cboHouseHeight
             // 
-            this.cboHeight.FormattingEnabled = true;
-            this.cboHeight.Location = new System.Drawing.Point(91, 52);
-            this.cboHeight.Name = "cboHeight";
-            this.cboHeight.Size = new System.Drawing.Size(36, 21);
-            this.cboHeight.TabIndex = 2;
+            this.cboHouseHeight.FormattingEnabled = true;
+            this.cboHouseHeight.Location = new System.Drawing.Point(91, 52);
+            this.cboHouseHeight.Name = "cboHouseHeight";
+            this.cboHouseHeight.Size = new System.Drawing.Size(36, 21);
+            this.cboHouseHeight.TabIndex = 2;
             // 
             // lblLength
             // 
@@ -80,9 +80,9 @@
             // 
             this.gpbFloorPlan.Controls.Add(this.btnUpdateFloorPlan);
             this.gpbFloorPlan.Controls.Add(this.lblHeight);
-            this.gpbFloorPlan.Controls.Add(this.cboLength);
+            this.gpbFloorPlan.Controls.Add(this.cboHouseLength);
             this.gpbFloorPlan.Controls.Add(this.lblLength);
-            this.gpbFloorPlan.Controls.Add(this.cboHeight);
+            this.gpbFloorPlan.Controls.Add(this.cboHouseHeight);
             this.gpbFloorPlan.Location = new System.Drawing.Point(546, 25);
             this.gpbFloorPlan.Name = "gpbFloorPlan";
             this.gpbFloorPlan.Size = new System.Drawing.Size(200, 126);
@@ -122,8 +122,8 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgv;
-        private System.Windows.Forms.ComboBox cboLength;
-        private System.Windows.Forms.ComboBox cboHeight;
+        private System.Windows.Forms.ComboBox cboHouseLength;
+        private System.Windows.Forms.ComboBox cboHouseHeight;
         private System.Windows.Forms.Label lblLength;
         private System.Windows.Forms.Label lblHeight;
         private System.Windows.Forms.GroupBox gpbFloorPlan;
