@@ -203,6 +203,21 @@ namespace IntruderAlertSystem {
                 }
             }
         }
+
+        private void dgv_KeyDown(object sender, KeyEventArgs e) {
+            // disable arrow key navigation to prevent the user from scrolling to far down
+            // moving the cells one row up (hidin them) and showing blank space
+            // https://www.codeproject.com/Questions/844000/How-do-I-disable-arrow-keys-while-editing-datagrid
+            switch (e.KeyData & Keys.KeyCode) {
+                case Keys.Up:
+                case Keys.Right:
+                case Keys.Down:
+                case Keys.Left:
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                    break;
+            }
+        }
     }
 
     public enum CompassPoint {
