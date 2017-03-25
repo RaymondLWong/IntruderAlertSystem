@@ -69,6 +69,7 @@
     <Compile Include="FloorPlan.Designer.cs">
       <DependentUpon>FloorPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Home.cs" />
     <Compile Include="HomeConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +96,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="Sensor.cs" />
+    <Compile Include="User.cs" />
     <EmbeddedResource Include="authenticated.resx">
       <DependentUpon>authenticated.cs</DependentUpon>
     </EmbeddedResource>

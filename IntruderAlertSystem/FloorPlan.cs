@@ -12,6 +12,7 @@ namespace IntruderAlertSystem {
     public partial class FloorPlan : Form {
 
         private static FloorPlan floorPlan = null;
+        private static Home home = null;
 
         public FloorPlan() {
             InitializeComponent();
