@@ -18,6 +18,7 @@ namespace IntruderAlertSystem {
         Entry
     }
     public class Sensor {
+        int sensorID;
         SensorTypeEnum type;
         string value;
 
@@ -25,6 +26,16 @@ namespace IntruderAlertSystem {
         public Sensor(SensorTypeEnum type, string value) {
             this.type = type;
             this.value = value;
+        }
+
+        public int SensorID {
+            get {
+                return sensorID;
+            }
+
+            set {
+                sensorID = value;
+            }
         }
 
         public SensorTypeEnum Type {

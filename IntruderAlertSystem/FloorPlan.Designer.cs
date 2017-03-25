@@ -53,9 +53,9 @@
             // 
             // gpbSensorInfo
             // 
-            this.gpbSensorInfo.Location = new System.Drawing.Point(546, 425);
+            this.gpbSensorInfo.Location = new System.Drawing.Point(546, 372);
             this.gpbSensorInfo.Name = "gpbSensorInfo";
-            this.gpbSensorInfo.Size = new System.Drawing.Size(200, 100);
+            this.gpbSensorInfo.Size = new System.Drawing.Size(200, 153);
             this.gpbSensorInfo.TabIndex = 7;
             this.gpbSensorInfo.TabStop = false;
             this.gpbSensorInfo.Text = "Sensor Information";

@@ -91,6 +91,14 @@ namespace IntruderAlertSystem {
             dgv.CellClick += new DataGridViewCellEventHandler(this.FloorPlan_CellClick);
         }
 
+        private void test() {
+            Sensor[] sList = Database.getSensorsFromRoom(1);
+
+            foreach (Sensor s in sList) {
+                Console.WriteLine($"{s.SensorID}");
+            }
+        }
+
         private void FloorPlan_Load(object sender, EventArgs e) {
             // disallow user resizing or maximising of form
             // http://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-form
@@ -102,6 +110,7 @@ namespace IntruderAlertSystem {
             // setup floor plan cells and combobox values
             setupFloorPlan(START_LENGTH, START_HEIGHT);
 
+            // fetch the room information from the database
             mapHome();
 
             HomeConfig.getInstance().Show();
@@ -198,6 +207,7 @@ namespace IntruderAlertSystem {
                             }
                         }
 
+                        // We handled painting for this cell, Stop default rendering.
                         e.Handled = true;
                     }
                 }

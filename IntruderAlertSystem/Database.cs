@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace IntruderAlertSystem {
     class Database {
@@ -13,6 +15,10 @@ namespace IntruderAlertSystem {
 
             return con;
         }
+
+        /*
+         *      USER RELATED QUERIES 
+         */
 
         public static void createUser(string username, byte[] password, byte[] salt) {
             MySqlConnection con = getDBConection();
@@ -94,14 +100,13 @@ INSERT INTO users (
             MySqlCommand cmd = new MySqlCommand("SELECT Username FROM users WHERE Username = @user", con);
             cmd.Parameters.Add(new MySqlParameter("@user", username));
 
-            con.Open();
-            cmd.ExecuteNonQuery();
-
-            MySqlDataReader reader;
             bool unique = true;
 
             try {
-                reader = cmd.ExecuteReader();
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.Read()) {
                     unique = false;
@@ -116,6 +121,52 @@ INSERT INTO users (
             }
 
             return unique;
+        }
+
+        /*
+         *      ROOM RELATED QUERIES 
+         */
+
+        public static Sensor[] getSensorsFromRoom(int roomID) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM sensors WHERE roomID = @roomID", con);
+            cmd.Parameters.Add(new MySqlParameter("@roomID", roomID));
+
+            Sensor[] sensors = null;
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                List<Sensor> sensorList = new List<Sensor>();
+
+                while (reader.Read()) {
+                    Sensor sensor = new Sensor();
+
+                    sensor.SensorID = reader.GetInt32("sensorID");
+                    sensor.Value = reader.GetString("value");
+
+                    // get the MySQL enum and convert it to the appropriate C# enum
+                    string t = reader.GetString("type");
+                    t = t.Replace(' ', '_');
+
+                    SensorTypeEnum type;
+                    Enum.TryParse(t, out type);
+                    sensor.Type = type;
+
+                    sensorList.Add(sensor);
+                }
+
+                reader.Close();
+                sensors = sensorList.ToArray();
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return sensors;
         }
     }
 }
