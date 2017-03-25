@@ -16,5 +16,9 @@ namespace IntruderAlertSystem {
                 }
             }
         }
+
+        public static void disableMaximiseButton(ref Form form) {
+            form.MaximizeBox = false;
+        }
     }
 }

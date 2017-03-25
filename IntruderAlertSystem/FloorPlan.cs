@@ -24,12 +24,23 @@ namespace IntruderAlertSystem {
             return floorPlan;
         }
         private void FloorPlan_Load(object sender, EventArgs e) {
-            // https://msdn.microsoft.com/en-us/library/aa984255(v=vs.71).aspx
+            // disallow user resizing or maximising of form
+            // http://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-form
+            getInstance().FormBorderStyle = FormBorderStyle.FixedSingle;
+            getInstance().MaximizeBox = false;
+
+            // use a table as base for floor plan visualisation
             DataGridView dgv = new DataGridView();
             // Remove headings because we only want cells,
             // which makes the table look more like a floor plan.
             dgv.RowHeadersVisible = false;
             dgv.ColumnHeadersVisible = false;
+
+            // disable selection of mulitple rooms
+            // and don't allow user to resize cells
+            dgv.MultiSelect = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
 
             // setup number of rooms
             dgv.ColumnCount = 5;
@@ -62,12 +73,22 @@ namespace IntruderAlertSystem {
             dgv.ClientSize = new Size(newHeight, newWidth);
             dgv.ScrollBars = ScrollBars.None;
 
+            // add cell click event to dgv
+            dgv.CellClick += new DataGridViewCellEventHandler(this.FloorPlan_CellClick);
+
             // add table to form
+            // Adding Controls to Windows Forms: https://msdn.microsoft.com/en-us/library/aa984255(v=vs.71).aspx
             getInstance().Controls.Add(dgv);
 
             // set the form size to be the table with some padding
             int padding = START_LOCATION * 2;
             getInstance().ClientSize = new Size(dgv.Height + padding, dgv.Width + padding);
+
+            HomeConfig.getInstance().Show();
+        }
+
+        private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
+            Console.WriteLine($"x: {e.ColumnIndex}, y: {e.RowIndex}");
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
