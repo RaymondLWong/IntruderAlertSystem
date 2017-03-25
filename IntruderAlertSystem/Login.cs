@@ -52,6 +52,7 @@ namespace IntruderAlertSystem {
             }
 
             bool validUser = Database.authenticateUser(txtUsername.Text, txtPassword.Text);
+            Console.WriteLine($"user id is: {User.UserID}");
 
             if (validUser) {
                 getInstance().Hide();

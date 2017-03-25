@@ -13,16 +13,40 @@ namespace IntruderAlertSystem {
 
         private static FloorPlan floorPlan = null;
         private static Home home = null;
+        private const int MAX_ROOMS = 5;
+
+        private static int START_LENGTH = 5;
+        private static int START_HEIGHT = 5;
+
+        private static int testX = 2;
+        private static int testY = 3;
 
         public FloorPlan() {
             InitializeComponent();
         }
-        public static Form getInstance() {
+
+        public static Form getInstance(int length = -1, int height = -1) {
             if (floorPlan == null) {
+                if (length != -1 && height != -1) {
+                    START_LENGTH = length;
+                    START_HEIGHT = height;
+                }
+
                 floorPlan = new FloorPlan();
             }
 
             return floorPlan;
+        }
+
+        private void mapHome() {
+            home = new Home();
+
+            home.HomeID = 1;
+
+            Room r = new Room(1, RoomCategory.End_Room, RoomType.Bathroom, testX, testY, "NESW");
+
+            home.Rooms = new Room[MAX_ROOMS, MAX_ROOMS];
+            home.Rooms[r.X, r.Y] = r;
         }
 
         private void setupFloorPlan(int length, int height) {
@@ -64,6 +88,9 @@ namespace IntruderAlertSystem {
             // remove the redundant scroll bars
             dgv.ScrollBars = ScrollBars.None;
 
+            // change the border style to allow custom painting of cell borders
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
+
             // add cell click event handler to dgv
             dgv.CellClick += new DataGridViewCellEventHandler(this.FloorPlan_CellClick);
         }
@@ -77,12 +104,13 @@ namespace IntruderAlertSystem {
             setupDGV();
 
             // setup floor plan cells and combobox values
-            const int MAX_ROOMS = 5;
             setupFloorLengthsForComboBoxes(MAX_ROOMS);
-            setupFloorPlan(MAX_ROOMS, MAX_ROOMS);
+            setupFloorPlan(START_LENGTH, START_HEIGHT);
 
-            setComboboxSelectedItemToLast(ref cboHouseHeight);
-            setComboboxSelectedItemToLast(ref cboHouseLength);
+            setComboboxSelectedItemToLast(ref cboFloorHeight);
+            setComboboxSelectedItemToLast(ref cboFloorLength);
+
+            mapHome();
 
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
@@ -95,8 +123,8 @@ namespace IntruderAlertSystem {
                 roomIndexes[i] = i + 1;
             }
 
-            cboHouseHeight.DataSource = roomIndexes.Clone();
-            cboHouseLength.DataSource = roomIndexes.Clone();
+            cboFloorHeight.DataSource = roomIndexes.Clone();
+            cboFloorLength.DataSource = roomIndexes.Clone();
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
@@ -116,9 +144,96 @@ namespace IntruderAlertSystem {
         }
 
         private void btnUpdateFloorPlan_Click(object sender, EventArgs e) {
-            int length = (int)cboHouseLength.SelectedValue;
-            int height = (int)cboHouseHeight.SelectedValue;
+            int length = (int)cboFloorLength.SelectedValue;
+            int height = (int)cboFloorHeight.SelectedValue;
             setupFloorPlan(length, height);
         }
+
+        private void dgv_CellPainting(object sender, DataGridViewCellPaintingEventArgs e) {
+            // override cell border painting to allow custom borders for door locations
+            // source: http://stackoverflow.com/questions/32154847/how-do-you-draw-a-border-around-a-datagridview-cell-while-its-being-edited
+
+            if (e.ColumnIndex > -1 & e.RowIndex > -1) {
+
+                Color DOOR_COLOUR = Color.Black;
+                int DOOR_BORDER_WIDTH = 5;
+
+                // Pen for left and top borders
+                using (var backGroundPen = new Pen(e.CellStyle.BackColor, 1))
+                // Pen for bottom and right borders
+                using (var gridlinePen = new Pen(dgv.GridColor, 1))
+                // Pen for selected cell borders
+                using (var selectedPen = new Pen(DOOR_COLOUR, DOOR_BORDER_WIDTH)) {
+
+                    var topLeftPoint = new Point(e.CellBounds.Left, e.CellBounds.Top);
+                    var topRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Top);
+                    var bottomRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
+                    var bottomleftPoint = new Point(e.CellBounds.Left, e.CellBounds.Bottom - 1);
+
+                    // remove the if
+                    if (e.ColumnIndex == testX && e.RowIndex == testY) {
+                        string doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
+                        Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
+
+                        bool north = doorLocations.Contains("N");
+                        bool east = doorLocations.Contains("E");
+                        bool south = doorLocations.Contains("S");
+                        bool west = doorLocations.Contains("W");
+
+                        // Paint all parts except borders.
+                        e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
+
+                        // Top border of first row cells should be in background color
+                        if (e.RowIndex == 0) {
+                            e.Graphics.DrawLine(backGroundPen, topLeftPoint, topRightPoint);
+                        } else {
+                            // Top border of non-first row cells should be in gridLine color, and they should be drawn here after right border
+                            Pen borderPen = (north) ? selectedPen : backGroundPen;
+                            if (e.RowIndex > 0) {
+                                e.Graphics.DrawLine(borderPen, topLeftPoint, topRightPoint);
+                            }
+                        }
+
+                        // Right border of last column cells should be in gridLine color
+                        if (e.ColumnIndex == dgv.ColumnCount - 1) {
+                            e.Graphics.DrawLine(gridlinePen, bottomRightPoint, topRightPoint);
+                        } else {
+                            //Right border of non-last column cells should be in background color
+                            Pen borderPen = (east) ? selectedPen : backGroundPen;
+                            e.Graphics.DrawLine(borderPen, bottomRightPoint, topRightPoint);
+                        }
+
+                        // Bottom border of last row cells should be in gridLine color
+                        if (e.RowIndex == dgv.RowCount - 1) {
+                            e.Graphics.DrawLine(gridlinePen, bottomRightPoint, bottomleftPoint);
+                        } else {
+                            // Bottom border of non-last row cells should be in background color
+                            Pen borderPen = (south) ? selectedPen : backGroundPen;
+                            e.Graphics.DrawLine(borderPen, bottomleftPoint, bottomRightPoint);
+                        }
+
+                        // Left border of first column cells should be in background color
+                        if (e.ColumnIndex == 0) {
+                            e.Graphics.DrawLine(backGroundPen, topLeftPoint, bottomleftPoint);
+                        } else {
+                            // Left border of non-first column cells should be in gridLine color, and they should be drawn here after bottom border
+                            Pen borderPen = (west) ? selectedPen : backGroundPen;
+                            if (e.ColumnIndex > 0) {
+                                e.Graphics.DrawLine(borderPen, topLeftPoint, bottomleftPoint);
+                            }
+                        }
+
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public enum CompassPoint {
+        North,
+        East,
+        South,
+        West
     }
 }

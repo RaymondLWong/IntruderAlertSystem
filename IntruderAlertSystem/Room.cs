@@ -30,8 +30,8 @@ namespace IntruderAlertSystem
         RoomCategory category;
         RoomType type;
 
-        int length;
-        int height;
+        int x;
+        int y;
 
         string doorLocations = "";
 
@@ -39,11 +39,12 @@ namespace IntruderAlertSystem
 
         public Room() { }
 
-        public Room(RoomCategory category, RoomType type, int length, int height, string doorLocations) {
+        public Room(int roomID, RoomCategory category, RoomType type, int x, int y, string doorLocations) {
+            this.roomID = roomID;
             this.category = category;
             this.type = type;
-            this.length = length;
-            this.height = height;
+            this.x = x;
+            this.y = y;
             this.doorLocations = doorLocations;
         }
 
@@ -77,23 +78,23 @@ namespace IntruderAlertSystem
             }
         }
 
-        public int Length {
+        public int X {
             get {
-                return length;
+                return x;
             }
 
             set {
-                length = value;
+                x = value;
             }
         }
 
-        public int Height {
+        public int Y {
             get {
-                return height;
+                return y;
             }
 
             set {
-                height = value;
+                y = value;
             }
         }
 

@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace IntruderAlertSystem {
     public class User {
-        public static int userID = -1;
+        private static int userID = -1;
+
+        public static int UserID {
+            get {
+                return userID;
+            }
+
+            set {
+                userID = value;
+            }
+        }
     }
 }

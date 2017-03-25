@@ -20,7 +20,7 @@ namespace IntruderAlertSystem {
         int homeID;
         AlarmState state;
 
-        Room[] rooms;
+        Room[,] rooms;
         public Home() { }
 
         public Home(int homeID, AlarmState state) {
@@ -48,7 +48,7 @@ namespace IntruderAlertSystem {
             }
         }
 
-        public Room[] Rooms {
+        public Room[,] Rooms {
             get {
                 return rooms;
             }

@@ -52,7 +52,7 @@ INSERT INTO users (
 
         public static bool authenticateUser(string username, string password) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash, PasswordSalt FROM users WHERE Username = @uname", con);
+            MySqlCommand cmd = new MySqlCommand("SELECT UserID, PasswordHash, PasswordSalt FROM users WHERE Username = @uname", con);
             cmd.Parameters.Add(new MySqlParameter("@uname", username));
 
             //Console.WriteLine(String.Format("sql: {0}", cmd.CommandText));
@@ -67,6 +67,8 @@ INSERT INTO users (
 
                 reader = cmd.ExecuteReader();
                 if (reader.Read()) {
+                    User.UserID = reader.GetInt32("UserID");
+
                     salt = (byte[])reader["PasswordSalt"];
                     storedPw = (byte[])reader["PasswordHash"];
                 } else {
