@@ -124,12 +124,6 @@ namespace IntruderAlertSystem {
             HomeConfig.getInstance().Left = fp.Right;
         }
 
-        private void btnUpdateFloorPlan_Click(object sender, EventArgs e) {
-            int length = (int)cboFloorLength.SelectedValue;
-            int height = (int)cboFloorHeight.SelectedValue;
-            setupFloorPlan(length, height);
-        }
-
         private void dgv_CellPainting(object sender, DataGridViewCellPaintingEventArgs e) {
             // override cell border painting to allow custom borders for door locations
             // source: http://stackoverflow.com/questions/32154847/how-do-you-draw-a-border-around-a-datagridview-cell-while-its-being-edited
