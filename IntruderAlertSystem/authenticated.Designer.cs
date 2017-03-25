@@ -26,9 +26,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnCreate = new System.Windows.Forms.Button();
             this.gpbFloorPlan = new System.Windows.Forms.GroupBox();
+            this.lblUnit = new System.Windows.Forms.Label();
             this.lblHeight = new System.Windows.Forms.Label();
             this.cboFloorSize = new System.Windows.Forms.ComboBox();
-            this.lblUnit = new System.Windows.Forms.Label();
             this.gpbFloorPlan.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +64,15 @@
             this.gpbFloorPlan.TabStop = false;
             this.gpbFloorPlan.Text = "Floor Plan";
             // 
+            // lblUnit
+            // 
+            this.lblUnit.AutoSize = true;
+            this.lblUnit.Location = new System.Drawing.Point(133, 55);
+            this.lblUnit.Name = "lblUnit";
+            this.lblUnit.Size = new System.Drawing.Size(19, 13);
+            this.lblUnit.TabIndex = 5;
+            this.lblUnit.Text = "^2";
+            // 
             // lblHeight
             // 
             this.lblHeight.AutoSize = true;
@@ -75,20 +84,12 @@
             // 
             // cboFloorSize
             // 
+            this.cboFloorSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFloorSize.FormattingEnabled = true;
             this.cboFloorSize.Location = new System.Drawing.Point(91, 52);
             this.cboFloorSize.Name = "cboFloorSize";
             this.cboFloorSize.Size = new System.Drawing.Size(36, 21);
             this.cboFloorSize.TabIndex = 2;
-            // 
-            // lblUnit
-            // 
-            this.lblUnit.AutoSize = true;
-            this.lblUnit.Location = new System.Drawing.Point(133, 55);
-            this.lblUnit.Name = "lblUnit";
-            this.lblUnit.Size = new System.Drawing.Size(19, 13);
-            this.lblUnit.TabIndex = 5;
-            this.lblUnit.Text = "^2";
             // 
             // authenticated
             // 
