@@ -23,7 +23,8 @@ namespace IntruderAlertSystem {
         string value;
 
         public Sensor() { }
-        public Sensor(SensorTypeEnum type, string value) {
+        public Sensor(int sensorID, SensorTypeEnum type, string value) {
+            this.sensorID = sensorID;
             this.type = type;
             this.value = value;
         }

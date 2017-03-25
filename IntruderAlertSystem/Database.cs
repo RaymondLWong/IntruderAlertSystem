@@ -149,11 +149,7 @@ INSERT INTO users (
 
                     // get the MySQL enum and convert it to the appropriate C# enum
                     string t = reader.GetString("type");
-                    t = t.Replace(' ', '_');
-
-                    SensorTypeEnum type;
-                    Enum.TryParse(t, out type);
-                    sensor.Type = type;
+                    sensor.Type = convertMySQLEnumToCSharpEnum<SensorTypeEnum>(t);
 
                     sensorList.Add(sensor);
                 }
@@ -167,6 +163,54 @@ INSERT INTO users (
             }
 
             return sensors;
+        }
+
+        public static T convertMySQLEnumToCSharpEnum<T>(string value) {
+            // source: http://stackoverflow.com/questions/16100/how-should-i-convert-a-string-to-an-enum-in-c
+            value = value.Replace(' ', '_');
+            return (T)Enum.Parse(typeof(T), value, true);
+        }
+
+        public static Room[] getRoomsFromFloor(int homeID) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM rooms WHERE homeID = @homeID", con);
+            cmd.Parameters.Add(new MySqlParameter("@homeID", homeID));
+
+            Room[] rooms = null;
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                List<Room> roomList = new List<Room>();
+
+                while (reader.Read()) {
+                    Room room = new Room();
+
+                    room.RoomID = reader.GetInt32("roomID");
+                    room.X = reader.GetInt32("xLocation");
+                    room.Y = reader.GetInt32("yLocation");
+                    room.DoorLocations = reader.GetString("doorLocations");
+
+                    string t = reader.GetString("type");
+                    room.Type = convertMySQLEnumToCSharpEnum<RoomType>(t);
+
+                    string c = reader.GetString("category");
+                    room.Category = convertMySQLEnumToCSharpEnum<RoomCategory>(c);
+
+                    roomList.Add(room);
+                }
+
+                reader.Close();
+                rooms = roomList.ToArray();
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return rooms;
         }
     }
 }

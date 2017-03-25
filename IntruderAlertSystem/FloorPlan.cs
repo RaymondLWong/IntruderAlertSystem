@@ -95,7 +95,13 @@ namespace IntruderAlertSystem {
             Sensor[] sList = Database.getSensorsFromRoom(1);
 
             foreach (Sensor s in sList) {
-                Console.WriteLine($"{s.SensorID}");
+                Console.WriteLine($"{s.Value}");
+            }
+
+            Room[] rList = Database.getRoomsFromFloor(1);
+
+            foreach (Room r in rList) {
+                Console.WriteLine($"{r.DoorLocations}");
             }
         }
 
@@ -111,6 +117,7 @@ namespace IntruderAlertSystem {
             setupFloorPlan(START_LENGTH, START_HEIGHT);
 
             // fetch the room information from the database
+            test();
             mapHome();
 
             HomeConfig.getInstance().Show();
