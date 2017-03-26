@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="sensorsDataset" targetNamespace="http://tempuri.org/sensorsDataset.xsd" xmlns:mstns="http://tempuri.org/sensorsDataset.xsd" xmlns="http://tempuri.org/sensorsDataset.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="pdcConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="pdcConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.IntruderAlertSystem.Properties.Settings.GlobalReference.Default.pdcConnectionString" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="sensorsTableAdapter" GeneratorDataComponentClassName="sensorsTableAdapter" Name="sensors" UserDataComponentName="sensorsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="pdcConnectionString (Settings)" DbObjectName="pdc.sensors" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `sensorID`, `roomID`, `type`, `state`, `value` FROM `sensors`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings />
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="sensorsDataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="sensorsDataset" msprop:Generator_UserDSName="sensorsDataset">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="sensors" msprop:Generator_TableClassName="sensorsDataTable" msprop:Generator_TableVarName="tablesensors" msprop:Generator_TablePropName="sensors" msprop:Generator_RowDeletingName="sensorsRowDeleting" msprop:Generator_RowChangingName="sensorsRowChanging" msprop:Generator_RowEvHandlerName="sensorsRowChangeEventHandler" msprop:Generator_RowDeletedName="sensorsRowDeleted" msprop:Generator_UserTableName="sensors" msprop:Generator_RowChangedName="sensorsRowChanged" msprop:Generator_RowEvArgName="sensorsRowChangeEvent" msprop:Generator_RowClassName="sensorsRow">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

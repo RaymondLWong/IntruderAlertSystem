@@ -35,16 +35,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 56);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(543, 37);
+            this.label1.Size = new System.Drawing.Size(534, 29);
             this.label1.TabIndex = 0;
-            this.label1.Text = "WELCOME TO THE APOCALYPSE!";
+            this.label1.Text = "Welcome to the Safe Home intruder alert system!";
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(199, 160);
+            this.btnCreate.Location = new System.Drawing.Point(22, 87);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 1;
@@ -55,9 +55,10 @@
             // gpbFloorPlan
             // 
             this.gpbFloorPlan.Controls.Add(this.lblUnit);
+            this.gpbFloorPlan.Controls.Add(this.btnCreate);
             this.gpbFloorPlan.Controls.Add(this.lblHeight);
             this.gpbFloorPlan.Controls.Add(this.cboFloorSize);
-            this.gpbFloorPlan.Location = new System.Drawing.Point(372, 123);
+            this.gpbFloorPlan.Location = new System.Drawing.Point(172, 69);
             this.gpbFloorPlan.Name = "gpbFloorPlan";
             this.gpbFloorPlan.Size = new System.Drawing.Size(200, 126);
             this.gpbFloorPlan.TabIndex = 6;
@@ -97,7 +98,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 261);
             this.Controls.Add(this.gpbFloorPlan);
-            this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.label1);
             this.Name = "authenticated";
             this.Text = "authenticated";

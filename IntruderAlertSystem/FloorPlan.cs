@@ -177,6 +177,7 @@ namespace IntruderAlertSystem {
         }
 
         private void uncheckCheckListBoxItems(ref CheckedListBox clb) {
+            // uncheck list items in the specified CheckedListBox
             while (clb.CheckedIndices.Count > 0) {
                 clb.SetItemChecked(clb.CheckedIndices[0], false);
             }
@@ -205,6 +206,8 @@ namespace IntruderAlertSystem {
         }
 
         private void loadRoomInformation(int x, int y) {
+            // retrieve the room information form the object (if the info exists)
+            // and load them into the appropriate controls
             if (home.Rooms == null) { return; }
             Room room = home.Rooms[x, y];
 
