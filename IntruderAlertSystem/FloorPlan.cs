@@ -210,66 +210,63 @@ namespace IntruderAlertSystem {
                     var bottomRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
                     var bottomleftPoint = new Point(e.CellBounds.Left, e.CellBounds.Bottom - 1);
 
-                    // remove the if
-                    if (e.ColumnIndex == testX && e.RowIndex == testY) {
-                        string doorLocations = "";
+                    string doorLocations = "";
 
-                        if (home.Rooms[e.ColumnIndex, e.RowIndex] != null) {
-                            doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
-                            Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
-                        }
-
-                        bool north = doorLocations.Contains("N");
-                        bool east = doorLocations.Contains("E");
-                        bool south = doorLocations.Contains("S");
-                        bool west = doorLocations.Contains("W");
-
-                        // Paint all parts except borders.
-                        e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
-
-                        // Top border of first row cells should be in background color
-                        if (e.RowIndex == 0) {
-                            e.Graphics.DrawLine(backGroundPen, topLeftPoint, topRightPoint);
-                        } else {
-                            // Top border of non-first row cells should be in gridLine color, and they should be drawn here after right border
-                            Pen borderPen = (north) ? selectedPen : backGroundPen;
-                            if (e.RowIndex > 0) {
-                                e.Graphics.DrawLine(borderPen, topLeftPoint, topRightPoint);
-                            }
-                        }
-
-                        // Right border of last column cells should be in gridLine color
-                        if (e.ColumnIndex == dgv.ColumnCount - 1) {
-                            e.Graphics.DrawLine(gridlinePen, bottomRightPoint, topRightPoint);
-                        } else {
-                            //Right border of non-last column cells should be in background color
-                            Pen borderPen = (east) ? selectedPen : backGroundPen;
-                            e.Graphics.DrawLine(borderPen, bottomRightPoint, topRightPoint);
-                        }
-
-                        // Bottom border of last row cells should be in gridLine color
-                        if (e.RowIndex == dgv.RowCount - 1) {
-                            e.Graphics.DrawLine(gridlinePen, bottomRightPoint, bottomleftPoint);
-                        } else {
-                            // Bottom border of non-last row cells should be in background color
-                            Pen borderPen = (south) ? selectedPen : backGroundPen;
-                            e.Graphics.DrawLine(borderPen, bottomleftPoint, bottomRightPoint);
-                        }
-
-                        // Left border of first column cells should be in background color
-                        if (e.ColumnIndex == 0) {
-                            e.Graphics.DrawLine(backGroundPen, topLeftPoint, bottomleftPoint);
-                        } else {
-                            // Left border of non-first column cells should be in gridLine color, and they should be drawn here after bottom border
-                            Pen borderPen = (west) ? selectedPen : backGroundPen;
-                            if (e.ColumnIndex > 0) {
-                                e.Graphics.DrawLine(borderPen, topLeftPoint, bottomleftPoint);
-                            }
-                        }
-
-                        // We handled painting for this cell, Stop default rendering.
-                        e.Handled = true;
+                    if (home.Rooms != null && home.Rooms[e.ColumnIndex, e.RowIndex] != null) {
+                        doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
+                        Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
                     }
+
+                    bool north = doorLocations.Contains("N");
+                    bool east = doorLocations.Contains("E");
+                    bool south = doorLocations.Contains("S");
+                    bool west = doorLocations.Contains("W");
+
+                    // Paint all parts except borders.
+                    e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
+
+                    // Top border of first row cells should be in background color
+                    if (e.RowIndex == 0) {
+                        e.Graphics.DrawLine(backGroundPen, topLeftPoint, topRightPoint);
+                    } else {
+                        // Top border of non-first row cells should be in gridLine color, and they should be drawn here after right border
+                        Pen borderPen = (north) ? selectedPen : gridlinePen;
+                        if (e.RowIndex > 0) {
+                            e.Graphics.DrawLine(borderPen, topLeftPoint, topRightPoint);
+                        }
+                    }
+
+                    // Right border of last column cells should be in gridLine color
+                    if (e.ColumnIndex == dgv.ColumnCount - 1) {
+                        e.Graphics.DrawLine(backGroundPen, bottomRightPoint, topRightPoint);
+                    } else {
+                        //Right border of non-last column cells should be in background color
+                        Pen borderPen = (east) ? selectedPen : gridlinePen;
+                        e.Graphics.DrawLine(borderPen, bottomRightPoint, topRightPoint);
+                    }
+
+                    // Bottom border of last row cells should be in gridLine color
+                    if (e.RowIndex == dgv.RowCount - 1) {
+                        e.Graphics.DrawLine(backGroundPen, bottomRightPoint, bottomleftPoint);
+                    } else {
+                        // Bottom border of non-last row cells should be in background color
+                        Pen borderPen = (south) ? selectedPen : gridlinePen;
+                        e.Graphics.DrawLine(borderPen, bottomleftPoint, bottomRightPoint);
+                    }
+
+                    // Left border of first column cells should be in background color
+                    if (e.ColumnIndex == 0) {
+                        e.Graphics.DrawLine(backGroundPen, topLeftPoint, bottomleftPoint);
+                    } else {
+                        // Left border of non-first column cells should be in gridLine color, and they should be drawn here after bottom border
+                        Pen borderPen = (west) ? selectedPen : gridlinePen;
+                        if (e.ColumnIndex > 0) {
+                            e.Graphics.DrawLine(borderPen, topLeftPoint, bottomleftPoint);
+                        }
+                    }
+
+                    // We handled painting for this cell, Stop default rendering.
+                    e.Handled = true;
                 }
             }
         }
