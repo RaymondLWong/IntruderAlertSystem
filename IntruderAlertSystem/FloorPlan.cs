@@ -85,6 +85,8 @@ namespace IntruderAlertSystem {
                 row.Height = CELL_WIDTH;
                 row.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
+
+            loopThroughRoomsAndExtractOverview();
         }
 
         private void setupDGV() {
@@ -253,7 +255,6 @@ namespace IntruderAlertSystem {
             txtRoomYLocation.Text = y.ToString();
 
             setupRoomInformation(x, y);
-            showRoomOverviewAtCell(x, y);
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
@@ -544,6 +545,13 @@ namespace IntruderAlertSystem {
                 Room room = home.Rooms[x, y];
                 int numberOfSensors = (room.Sensors != null) ? room.Sensors.Length : 0;
                 dgv[x, y].Value = $"{room.Type.ToString()} ({numberOfSensors})";
+            }
+        }
+
+        public void loopThroughRoomsAndExtractOverview() {
+            foreach (Room room in home.Rooms) {
+                showRoomOverviewAtCell(room.X, room.Y);
+                //dgv[room.X, room.Y].
             }
         }
     }

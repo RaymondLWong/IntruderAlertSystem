@@ -274,6 +274,7 @@ INSERT INTO users (
         }
 
         public static bool updateSensor(Sensor sensor) {
+            // TODO: update sensor properties or just force user to add/remove instead?
             bool success = false;
 
             string s = "UPDATE `sensors` SET `roomID`=2,`type`='Entry',`state`='Enabled',`value`='value' WHERE sensorID = 7;";
