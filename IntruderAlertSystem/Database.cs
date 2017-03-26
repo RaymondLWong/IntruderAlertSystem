@@ -281,7 +281,7 @@ INSERT INTO users (
             return success;
         }
 
-        public static bool insertHomeIntoDB(Home home) {
+        public static bool insertHomeIntoDB(Home home, out int homeID) {
             bool success = false;
 
             // http://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array
@@ -305,10 +305,10 @@ INSERT INTO home (
 );", con);
 
             // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
-            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.VarChar);
-            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.VarBinary);
-            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.VarBinary);
-            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarBinary);
+            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.Int32);
+            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.Int32);
+            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.Int32);
+            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarChar);
 
             paramUserID.Value = User.UserID;
             paramLength.Value = length;
@@ -323,6 +323,7 @@ INSERT INTO home (
             try {
                 con.Open();
                 cmd.ExecuteNonQuery();
+                homeID = (int)cmd.LastInsertedId;
 
                 success = true;
             } catch (MySqlException MySqlE) {
@@ -348,11 +349,11 @@ SET
 WHERE 
     homeID = @homeiD
 ", con);
-            MySqlParameter paramHomeID = new MySqlParameter("@homeiD", MySqlDbType.VarBinary);
-            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.VarBinary);
-            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.VarBinary);
-            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.VarBinary);
-            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarBinary);
+            MySqlParameter paramHomeID = new MySqlParameter("@homeiD", MySqlDbType.Int32);
+            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.Int32);
+            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.Int32);
+            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.Int32);
+            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarChar);
 
             string state = Common.convertCSharpEnumToMySQLEnum(home.State);
 
@@ -371,6 +372,114 @@ WHERE
             try {
                 con.Open();
                 cmd.ExecuteNonQuery();
+
+                success = true;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return success;
+        }
+
+        public static bool saveRoom(int homeID, Room room) {
+            // TODO: currently the room is insertered into the database
+            // without checking for existing rooms (to save time).
+            // this means that a retrieved room for a particular co-ordinate could
+            // be overwritten by another room (same co-ords, different id and info)
+
+            bool success = false;
+
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand(@"
+INSERT INTO `rooms` ( 
+    `homeID`, 
+    `xLocation`, 
+    `yLocation`, 
+    `category`, 
+    `type`, 
+    `doorLocations`
+) VALUES (
+    @homeID,
+    @x,
+    @y,
+    @category,
+    @type,
+    @doorLocations
+)
+", con);
+            MySqlParameter paramHomeID = new MySqlParameter("@homeiD", MySqlDbType.Int32);
+            MySqlParameter paramX = new MySqlParameter("@x", MySqlDbType.Int32);
+            MySqlParameter paramY = new MySqlParameter("@y", MySqlDbType.Int32);
+            MySqlParameter paramCategory= new MySqlParameter("@category", MySqlDbType.VarChar);
+            MySqlParameter paramType = new MySqlParameter("@type", MySqlDbType.VarChar);
+            MySqlParameter paramDoorLocations = new MySqlParameter("@doorLocations", MySqlDbType.VarChar);
+            
+            paramHomeID.Value = homeID;
+            paramX.Value = room.X;
+            paramY.Value = room.Y;
+            paramCategory.Value = Common.convertCSharpEnumToMySQLEnum(room.Category);
+            paramType.Value = Common.convertCSharpEnumToMySQLEnum(room.Type);
+            paramDoorLocations.Value = room.DoorLocations;
+
+            cmd.Parameters.Add(paramHomeID);
+            cmd.Parameters.Add(paramX);
+            cmd.Parameters.Add(paramY);
+            cmd.Parameters.Add(paramCategory);
+            cmd.Parameters.Add(paramType);
+            cmd.Parameters.Add(paramDoorLocations);
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                success = true;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return success;
+        }
+
+        public static bool addSensor(Sensor sensor, int roomID, out int sensorID) {
+            bool success = false;
+
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand(@"
+INSERT INTO `sensors` (
+    `roomID`, 
+    `type`, 
+    `state`, 
+    `value`
+) VALUES (
+    @roomID,
+    @type,
+    @state,
+    @value
+)
+", con);
+            MySqlParameter paramRoomID = new MySqlParameter("@roomID", MySqlDbType.Int32);
+            MySqlParameter paramType = new MySqlParameter("@type", MySqlDbType.VarChar);
+            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarChar);
+            MySqlParameter paramValue = new MySqlParameter("@value", MySqlDbType.VarChar);
+
+            paramRoomID.Value = roomID;
+            paramType.Value = Common.convertCSharpEnumToMySQLEnum(sensor.Type);
+            paramState.Value = Common.convertCSharpEnumToMySQLEnum(sensor.State);
+            paramValue.Value = sensor.Value;
+
+            cmd.Parameters.Add(paramRoomID);
+            cmd.Parameters.Add(paramType);
+            cmd.Parameters.Add(paramState);
+            cmd.Parameters.Add(paramValue);
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+                sensorID = (int)cmd.LastInsertedId;
 
                 success = true;
             } catch (Exception ex) {

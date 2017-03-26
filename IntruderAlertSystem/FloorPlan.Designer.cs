@@ -50,10 +50,11 @@
             this.cboSensorType = new System.Windows.Forms.ComboBox();
             this.btnRemoveSensor = new System.Windows.Forms.Button();
             this.cboSensorState = new System.Windows.Forms.ComboBox();
-            this.btnUpdateSensor = new System.Windows.Forms.Button();
+            this.btnSaveSensor = new System.Windows.Forms.Button();
             this.btnSaveHouse = new System.Windows.Forms.Button();
             this.cboAlarmState = new System.Windows.Forms.ComboBox();
             this.lblHomeState = new System.Windows.Forms.Label();
+            this.btnSaveRoom = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.gpbRoomInfo.SuspendLayout();
             this.gpbSensorInfo.SuspendLayout();
@@ -75,6 +76,7 @@
             // 
             // gpbRoomInfo
             // 
+            this.gpbRoomInfo.Controls.Add(this.btnSaveRoom);
             this.gpbRoomInfo.Controls.Add(this.lblDoorLocations);
             this.gpbRoomInfo.Controls.Add(this.clbDoorLocations);
             this.gpbRoomInfo.Controls.Add(this.cboType);
@@ -159,7 +161,7 @@
             // 
             // gpbSensorInfo
             // 
-            this.gpbSensorInfo.Controls.Add(this.btnUpdateSensor);
+            this.gpbSensorInfo.Controls.Add(this.btnSaveSensor);
             this.gpbSensorInfo.Controls.Add(this.cboSensorState);
             this.gpbSensorInfo.Controls.Add(this.btnRemoveSensor);
             this.gpbSensorInfo.Controls.Add(this.cboSensorType);
@@ -297,7 +299,6 @@
             // 
             this.txtSensorValue.Location = new System.Drawing.Point(59, 106);
             this.txtSensorValue.Name = "txtSensorValue";
-            this.txtSensorValue.ReadOnly = true;
             this.txtSensorValue.Size = new System.Drawing.Size(100, 20);
             this.txtSensorValue.TabIndex = 14;
             // 
@@ -340,15 +341,15 @@
             this.cboSensorState.Size = new System.Drawing.Size(100, 21);
             this.cboSensorState.TabIndex = 18;
             // 
-            // btnUpdateSensor
+            // btnSaveSensor
             // 
-            this.btnUpdateSensor.Location = new System.Drawing.Point(170, 82);
-            this.btnUpdateSensor.Name = "btnUpdateSensor";
-            this.btnUpdateSensor.Size = new System.Drawing.Size(97, 23);
-            this.btnUpdateSensor.TabIndex = 19;
-            this.btnUpdateSensor.Text = "Update sensor";
-            this.btnUpdateSensor.UseVisualStyleBackColor = true;
-            this.btnUpdateSensor.Click += new System.EventHandler(this.btnUpdateSensor_Click);
+            this.btnSaveSensor.Location = new System.Drawing.Point(170, 82);
+            this.btnSaveSensor.Name = "btnSaveSensor";
+            this.btnSaveSensor.Size = new System.Drawing.Size(97, 23);
+            this.btnSaveSensor.TabIndex = 19;
+            this.btnSaveSensor.Text = "Save sensor";
+            this.btnSaveSensor.UseVisualStyleBackColor = true;
+            this.btnSaveSensor.Click += new System.EventHandler(this.btnUpdateSensor_Click);
             // 
             // btnSaveHouse
             // 
@@ -377,6 +378,16 @@
             this.lblHomeState.Size = new System.Drawing.Size(98, 13);
             this.lblHomeState.TabIndex = 20;
             this.lblHomeState.Text = "Alarm System State";
+            // 
+            // btnSaveRoom
+            // 
+            this.btnSaveRoom.Location = new System.Drawing.Point(192, 161);
+            this.btnSaveRoom.Name = "btnSaveRoom";
+            this.btnSaveRoom.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveRoom.TabIndex = 22;
+            this.btnSaveRoom.Text = "Save room";
+            this.btnSaveRoom.UseVisualStyleBackColor = true;
+            this.btnSaveRoom.Click += new System.EventHandler(this.btnSaveRoom_Click);
             // 
             // FloorPlan
             // 
@@ -432,9 +443,10 @@
         private System.Windows.Forms.Button btnRemoveSensor;
         private System.Windows.Forms.ComboBox cboSensorType;
         private System.Windows.Forms.ComboBox cboSensorState;
-        private System.Windows.Forms.Button btnUpdateSensor;
+        private System.Windows.Forms.Button btnSaveSensor;
         private System.Windows.Forms.Button btnSaveHouse;
         private System.Windows.Forms.ComboBox cboAlarmState;
         private System.Windows.Forms.Label lblHomeState;
+        private System.Windows.Forms.Button btnSaveRoom;
     }
 }
