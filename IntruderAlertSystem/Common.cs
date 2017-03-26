@@ -29,7 +29,17 @@ namespace IntruderAlertSystem {
         }
 
         public static void fillComboBoxFromEnum<E>(ref ComboBox cbo) {
+            // http://stackoverflow.com/questions/906899/binding-an-enum-to-a-winforms-combo-box-and-then-setting-it
             cbo.DataSource = Enum.GetValues(typeof(E));
+        }
+
+        public static void fillListBoxFromEnum<E>(ref CheckedListBox listBox) {
+            listBox.DataSource = Enum.GetValues(typeof(E));
+        }
+
+        public static string convertEnumToString<E>(E e) {
+            // http://stackoverflow.com/questions/309333/enum-string-name-from-value/13879305#13879305
+            return Enum.GetName(typeof(E), e);
         }
     }
 }

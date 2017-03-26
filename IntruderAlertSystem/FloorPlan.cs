@@ -21,16 +21,31 @@ namespace IntruderAlertSystem {
         private static int testX = 2;
         private static int testY = 3;
 
+        RoomType[] END_ROOMS = {
+            RoomType.Bedroom,
+            RoomType.Bathroom,
+            RoomType.Kitchen
+        };
+
+        RoomType[] MIDDLE_ROOMS = {
+            RoomType.Corridor,
+            RoomType.Living_Room
+        };
+
         public FloorPlan() {
             InitializeComponent();
         }
 
-        public static Form getInstance(int length = -1, int height = -1) {
+        public static Form getInstance(int length = -1, int height = -1, bool newHome = false) {
             if (floorPlan == null) {
                 if (length != -1 && height != -1) {
                     START_LENGTH = length;
                     START_HEIGHT = height;
+                }
 
+                if (newHome) {
+                    FloorPlan.home = new Home();
+                } else {
                     FloorPlan.home = Database.getHomeAndRooms(User.UserID);
                 }
 
@@ -120,14 +135,46 @@ namespace IntruderAlertSystem {
             Home h = FloorPlan.home;
 
             Common.fillComboBoxFromEnum<RoomCategory>(ref cboCategory);
+            Common.fillListBoxFromEnum<CompassPoint>(ref clbDoorLocations);
 
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
+            // show cell location in textboxes
             txtRoomXLocation.Text = e.ColumnIndex.ToString();
             txtRoomYLocation.Text = e.RowIndex.ToString();
+
+            // limit doors to inside the house (no doors at edges)
+            CompassPoint cp = (CompassPoint)clbDoorLocations.SelectedItem;
+            int cellX = dgv.SelectedCells[0].ColumnIndex;
+            int cellY = dgv.SelectedCells[0].RowIndex;
+
+            List<CompassPoint> compassPoints = Enum.GetValues(typeof(CompassPoint)).Cast<CompassPoint>().ToList();
+
+            // left-hand edges can't have doors on the left wall
+            // prevent doors at left edge
+            if (cellX == 0) {
+                compassPoints.Remove(CompassPoint.West);
+            }
+
+            // prevent doors at right edge
+            if (cellX == dgv.ColumnCount - 1) {
+                compassPoints.Remove(CompassPoint.East);
+            }
+
+            // prevent doors at top edge
+            if (cellY == 0) {
+                compassPoints.Remove(CompassPoint.North);
+            }
+
+            // prevent doors at bottom edge
+            if (cellY == dgv.RowCount - 1) {
+                compassPoints.Remove(CompassPoint.South);
+            }
+
+            clbDoorLocations.DataSource = compassPoints;
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
@@ -165,8 +212,12 @@ namespace IntruderAlertSystem {
 
                     // remove the if
                     if (e.ColumnIndex == testX && e.RowIndex == testY) {
-                        string doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
-                        Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
+                        string doorLocations = "";
+
+                        if (home.Rooms[e.ColumnIndex, e.RowIndex] != null) {
+                            doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
+                            Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
+                        }
 
                         bool north = doorLocations.Contains("N");
                         bool east = doorLocations.Contains("E");
@@ -236,6 +287,46 @@ namespace IntruderAlertSystem {
                     e.SuppressKeyPress = true;
                     break;
             }
+        }
+
+        private void cboCategory_SelectedIndexChanged(object sender, EventArgs e) {
+            RoomCategory category = (RoomCategory) cboCategory.SelectedValue;
+            if (category == RoomCategory.End_Room) {
+                cboType.DataSource = END_ROOMS.Clone();
+            } else if (category == RoomCategory.Middle_Room) {
+                cboType.DataSource = MIDDLE_ROOMS.Clone();
+            }
+        }
+
+        private void clbDoorLocations_ItemCheck(object sender, ItemCheckEventArgs e) {
+            
+
+        }
+
+        private bool checkDoorIsValid(Room room) {
+            // check if corresponding room has corresponding door
+            return true;
+        }
+
+        private bool checkFloorPlanIsValid() {
+            // loop through each room
+            // and check door locations
+
+            // http://stackoverflow.com/questions/32248258/limit-checked-items-in-checkedlistbox
+            //int maxDoors = -1;
+
+            //RoomCategory category = (RoomCategory)cboCategory.SelectedValue;
+
+            //if (category == RoomCategory.End_Room) {
+            //    maxDoors = 1;
+            //} else if (category == RoomCategory.Middle_Room) {
+            //    cboType.DataSource = MIDDLE_ROOMS.Clone();
+            //}
+
+            //if (e.NewValue == CheckState.Checked && clbDoorLocations.CheckedItems.Count >= 2)
+            //    e.NewValue = CheckState.Unchecked;
+
+            return true;
         }
     }
 

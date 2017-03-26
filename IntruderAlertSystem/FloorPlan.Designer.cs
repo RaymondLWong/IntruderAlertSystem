@@ -26,7 +26,7 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.gpbRoomInfo = new System.Windows.Forms.GroupBox();
             this.cboType = new System.Windows.Forms.ComboBox();
-            this.Type = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
             this.cboCategory = new System.Windows.Forms.ComboBox();
             this.lblCategory = new System.Windows.Forms.Label();
             this.txtRoomYLocation = new System.Windows.Forms.TextBox();
@@ -38,6 +38,8 @@
             this.txtFloorHeight = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtFloorLength = new System.Windows.Forms.TextBox();
+            this.clbDoorLocations = new System.Windows.Forms.CheckedListBox();
+            this.lblDoorLocations = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.gpbRoomInfo.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -58,8 +60,10 @@
             // 
             // gpbRoomInfo
             // 
+            this.gpbRoomInfo.Controls.Add(this.lblDoorLocations);
+            this.gpbRoomInfo.Controls.Add(this.clbDoorLocations);
             this.gpbRoomInfo.Controls.Add(this.cboType);
-            this.gpbRoomInfo.Controls.Add(this.Type);
+            this.gpbRoomInfo.Controls.Add(this.lblType);
             this.gpbRoomInfo.Controls.Add(this.cboCategory);
             this.gpbRoomInfo.Controls.Add(this.lblCategory);
             this.gpbRoomInfo.Controls.Add(this.txtRoomYLocation);
@@ -81,14 +85,14 @@
             this.cboType.Size = new System.Drawing.Size(121, 21);
             this.cboType.TabIndex = 6;
             // 
-            // Type
+            // lblType
             // 
-            this.Type.AutoSize = true;
-            this.Type.Location = new System.Drawing.Point(10, 80);
-            this.Type.Name = "Type";
-            this.Type.Size = new System.Drawing.Size(28, 13);
-            this.Type.TabIndex = 5;
-            this.Type.Text = "Text";
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(10, 80);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 5;
+            this.lblType.Text = "Type";
             // 
             // cboCategory
             // 
@@ -98,6 +102,7 @@
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(121, 21);
             this.cboCategory.TabIndex = 4;
+            this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
             // lblCategory
             // 
@@ -195,6 +200,24 @@
             this.txtFloorLength.TabIndex = 4;
             this.txtFloorLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // clbDoorLocations
+            // 
+            this.clbDoorLocations.FormattingEnabled = true;
+            this.clbDoorLocations.Location = new System.Drawing.Point(98, 105);
+            this.clbDoorLocations.Name = "clbDoorLocations";
+            this.clbDoorLocations.Size = new System.Drawing.Size(88, 94);
+            this.clbDoorLocations.TabIndex = 7;
+            this.clbDoorLocations.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbDoorLocations_ItemCheck);
+            // 
+            // lblDoorLocations
+            // 
+            this.lblDoorLocations.AutoSize = true;
+            this.lblDoorLocations.Location = new System.Drawing.Point(13, 105);
+            this.lblDoorLocations.Name = "lblDoorLocations";
+            this.lblDoorLocations.Size = new System.Drawing.Size(79, 13);
+            this.lblDoorLocations.TabIndex = 8;
+            this.lblDoorLocations.Text = "Door Locations";
+            // 
             // FloorPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -232,8 +255,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtFloorLength;
         private System.Windows.Forms.ComboBox cboType;
-        private System.Windows.Forms.Label Type;
+        private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.CheckedListBox clbDoorLocations;
+        private System.Windows.Forms.Label lblDoorLocations;
     }
 }

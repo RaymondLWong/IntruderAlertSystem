@@ -25,14 +25,17 @@ namespace IntruderAlertSystem {
 
             // if the user has a home, load it
             // otherwise create a new one
-            if (home == null) {
+
+            bool newHome = (home == null);
+
+            if (newHome) {
                 size = (int)cboFloorSize.SelectedValue;
             } else {
                 // http://stackoverflow.com/questions/4106369/how-do-i-find-the-size-of-a-2d-array
                 size = home.Rooms.GetLength(0);
             }
 
-            FloorPlan.getInstance(size, size).Show();
+            FloorPlan.getInstance(size, size, newHome).Show();
             getInstance().Hide();
         }
 
