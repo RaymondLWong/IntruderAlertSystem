@@ -41,7 +41,9 @@ namespace IntruderAlertSystem {
         }
 
         private void setupFloorPlan(int length, int height) {
-            // TODO: cell sizes don't change on update
+            // TODO: non-square cell sizes don't always change on update
+            txtFloorLength.Text = length.ToString();
+            txtFloorHeight.Text = height.ToString();
 
             // setup number of rooms
             dgv.ColumnCount = length;
@@ -110,7 +112,7 @@ namespace IntruderAlertSystem {
 
             setupDGV();
 
-            // setup floor plan cells and combobox values
+            // setup floor plan cells and textbox values
             setupFloorPlan(START_LENGTH, START_HEIGHT);
 
             // fetch the room information from the database
