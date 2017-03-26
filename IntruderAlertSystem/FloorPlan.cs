@@ -106,7 +106,9 @@ namespace IntruderAlertSystem {
             }
 
             // TODO: chain call so getFloorsFromHome/getHome gets all objects (including arrays)
+            Home h = Database.getHome(1);
 
+            Console.WriteLine($"Home alarm is {h.State}");
         }
 
         private void FloorPlan_Load(object sender, EventArgs e) {

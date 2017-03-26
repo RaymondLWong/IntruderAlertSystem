@@ -22,8 +22,9 @@ namespace IntruderAlertSystem {
         }
 
         public static T convertMySQLEnumToCSharpEnum<T>(string value) {
+            // get the MySQL enum and convert it to the appropriate C# enum
             // source: http://stackoverflow.com/questions/16100/how-should-i-convert-a-string-to-an-enum-in-c
-            value = value.Replace(' ', '_');
+            value = value.Replace(' ', '_'); // replace spaces with _ because C# enums can't have spaces
             return (T)Enum.Parse(typeof(T), value, true);
         }
     }

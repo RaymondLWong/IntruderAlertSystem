@@ -20,12 +20,14 @@ namespace IntruderAlertSystem {
     public class Sensor {
         int sensorID;
         SensorTypeEnum type;
+        AlarmState state;
         string value;
 
         public Sensor() { }
-        public Sensor(int sensorID, SensorTypeEnum type, string value) {
+        public Sensor(int sensorID, SensorTypeEnum type, AlarmState state, string value) {
             this.sensorID = sensorID;
             this.type = type;
+            this.state = state;
             this.value = value;
         }
 
@@ -56,6 +58,16 @@ namespace IntruderAlertSystem {
 
             set {
                 this.value = value;
+            }
+        }
+
+        public AlarmState State {
+            get {
+                return state;
+            }
+
+            set {
+                state = value;
             }
         }
     }

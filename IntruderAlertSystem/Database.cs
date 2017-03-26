@@ -147,9 +147,11 @@ INSERT INTO users (
                     sensor.SensorID = reader.GetInt32("sensorID");
                     sensor.Value = reader.GetString("value");
 
-                    // get the MySQL enum and convert it to the appropriate C# enum
                     string t = reader.GetString("type");
                     sensor.Type = Common.convertMySQLEnumToCSharpEnum<SensorTypeEnum>(t);
+
+                    string s = reader.GetString("state");
+                    sensor.State = Common.convertMySQLEnumToCSharpEnum<AlarmState>(s);
 
                     sensorList.Add(sensor);
                 }
@@ -217,6 +219,39 @@ INSERT INTO users (
             }
 
             return rooms;
+        }
+
+        public static Home getHome(int homeID) {
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM home WHERE homeID = @homeID", con);
+            cmd.Parameters.Add(new MySqlParameter("@homeID", homeID));
+
+            Home home = null;
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read()) {
+                    home = new Home();
+                    home.HomeID = reader.GetInt32("homeID");
+
+                    string s = reader.GetString("alarmState");
+                    home.State = Common.convertMySQLEnumToCSharpEnum<AlarmState>(s);
+                } else {
+                    Console.WriteLine($"No home with ID of '{homeID}' found.");
+                }
+
+                reader.Close();
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return home;
         }
     }
 }
