@@ -137,7 +137,10 @@ namespace IntruderAlertSystem {
             Common.fillComboBoxFromEnum<RoomCategory>(ref cboCategory);
             Common.fillListBoxFromEnum<CompassPoint>(ref clbDoorLocations);
 
-            preventDoorSelectionAtEdges();
+            int x = dgv.SelectedCells[0].ColumnIndex;
+            int y = dgv.SelectedCells[0].RowIndex;
+
+            setupRoomInformation(x, y);
 
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
@@ -215,6 +218,22 @@ namespace IntruderAlertSystem {
             }
         }
 
+        private void loadRoomInformation(int x, int y) {
+            if (home.Rooms == null) { return; }
+            Room room = home.Rooms[x, y];
+
+            cboCategory.SelectedItem = room.Category;
+            cboType.SelectedItem = room.Type;
+
+            setDoorsFromString(room.DoorLocations);
+        }
+
+        private void setupRoomInformation(int x, int y) {
+            // setup the room's information, including hididing invlaid door placement
+            preventDoorSelectionAtEdges();
+            loadRoomInformation(x, y);
+        }
+
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
             int x = e.ColumnIndex;
             int y = e.RowIndex;
@@ -223,15 +242,7 @@ namespace IntruderAlertSystem {
             txtRoomXLocation.Text = x.ToString();
             txtRoomYLocation.Text = y.ToString();
 
-            // load room information
-            Room room = home.Rooms[x, y];
-
-            cboCategory.SelectedItem = room.Category;
-            cboType.SelectedItem = room.Type;
-
-            preventDoorSelectionAtEdges();
-
-            setDoorsFromString(room.DoorLocations);
+            setupRoomInformation(x, y);
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
