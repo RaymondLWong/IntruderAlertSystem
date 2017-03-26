@@ -68,12 +68,16 @@ namespace IntruderAlertSystem {
             int CELL_WIDTH = dgv.Width / dgv.ColumnCount;
 
             // set cell lengths to be square and decently sized, so it represents a "room"
+            // also set the cell text to be centred in the middle
+            // https://msdn.microsoft.com/en-us/library/system.windows.forms.datagridviewcellstyle.alignment(v=vs.110).aspx
             foreach (DataGridViewColumn column in dgv.Columns) {
                 column.Width = CELL_HEIGHT;
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
             foreach (DataGridViewRow row in dgv.Rows) {
                 row.Height = CELL_WIDTH;
+                row.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
         }
 
@@ -243,6 +247,7 @@ namespace IntruderAlertSystem {
             txtRoomYLocation.Text = y.ToString();
 
             setupRoomInformation(x, y);
+            showRoomOverviewAtCell(x, y);
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
@@ -526,6 +531,14 @@ namespace IntruderAlertSystem {
             }
 
             return doorLocations;
+        }
+
+        public void showRoomOverviewAtCell(int x, int y) {
+            if (home.Rooms != null && home.Rooms[x, y] != null) {
+                Room room = home.Rooms[x, y];
+                int numberOfSensors = (room.Sensors != null) ? room.Sensors.Length : 0;
+                dgv[x, y].Value = $"{room.Type.ToString()} ({numberOfSensors})";
+            }
         }
     }
 
