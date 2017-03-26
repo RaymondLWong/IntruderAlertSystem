@@ -6,6 +6,7 @@ namespace IntruderAlertSystem {
     public partial class authenticated : Form {
 
         private static authenticated auth = null;
+        private static Home home = null;
 
         public static Form getInstance() {
             if (auth == null) {
@@ -20,15 +21,37 @@ namespace IntruderAlertSystem {
         }
 
         private void btnCreate_Click(object sender, System.EventArgs e) {
-            int size = (int)cboFloorSize.SelectedValue;
+            int size = 2; // set default floor size to 2x2
+
+            // if the user has a home, load it
+            // otherwise create a new one
+            if (home == null) {
+                size = (int)cboFloorSize.SelectedValue;
+            } else {
+                // http://stackoverflow.com/questions/4106369/how-do-i-find-the-size-of-a-2d-array
+                size = home.Rooms.GetLength(0);
+            }
 
             FloorPlan.getInstance(size, size).Show();
         }
 
         private void authenticated_Load(object sender, System.EventArgs e) {
-            setupFloorLengthsForComboBoxes(2, 5);
+            home = Database.getHome(User.UserID);
 
-            setComboboxSelectedItemToLast(ref cboFloorSize);
+            // let the user create a new floor plan
+            // if they don't have one
+            // (TODO: allow user to choose homes and have more than one floor per home)
+            if (home == null) {
+                setupFloorLengthsForComboBoxes(2, 5);
+
+                setComboboxSelectedItemToLast(ref cboFloorSize);
+            } else {
+                cboFloorSize.Enabled = false;
+                btnCreate.Text = "Load existing floor plan";
+                // http://stackoverflow.com/questions/3965694/how-to-resize-a-button-depending-on-its-text
+                btnCreate.AutoSize = true;
+                btnCreate.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            }
         }
 
         private void setupFloorLengthsForComboBoxes(int min, int limit) {

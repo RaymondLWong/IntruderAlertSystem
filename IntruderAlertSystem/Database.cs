@@ -221,10 +221,10 @@ INSERT INTO users (
             return rooms;
         }
 
-        public static Home getHome(int homeID) {
+        public static Home getHome(int userID) {
             MySqlConnection con = getDBConection();
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM home WHERE homeID = @homeID", con);
-            cmd.Parameters.Add(new MySqlParameter("@homeID", homeID));
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM home WHERE userID = @userID", con);
+            cmd.Parameters.Add(new MySqlParameter("@userID", userID));
 
             Home home = null;
 
@@ -240,8 +240,13 @@ INSERT INTO users (
 
                     string s = reader.GetString("alarmState");
                     home.State = Common.convertMySQLEnumToCSharpEnum<AlarmState>(s);
+
+                    int length = reader.GetInt32("xLength");
+                    int height = reader.GetInt32("YLength");
+
+                    home.Rooms = new Room[length, height];
                 } else {
-                    Console.WriteLine($"No home with ID of '{homeID}' found.");
+                    Console.WriteLine($"No home with user ID of '{userID}' found.");
                 }
 
                 reader.Close();
@@ -249,6 +254,20 @@ INSERT INTO users (
                 throw ex;
             } finally {
                 con.Close();
+            }
+
+            return home;
+        }
+
+        public static Home getHomeAndRooms(int userID) {
+            Home home = getHome(userID);
+
+            if (home != null) {
+                Room[] rooms = getRoomsAndSensorsFromFloor(home.HomeID);
+
+                foreach (Room room in rooms) {
+                    home.Rooms[room.X, room.Y] = room;
+                }
             }
 
             return home;
