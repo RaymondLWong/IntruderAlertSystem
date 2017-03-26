@@ -27,5 +27,9 @@ namespace IntruderAlertSystem {
             value = value.Replace(' ', '_'); // replace spaces with _ because C# enums can't have spaces
             return (T)Enum.Parse(typeof(T), value, true);
         }
+
+        public static void fillComboBoxFromEnum<E>(ref ComboBox cbo) {
+            cbo.DataSource = Enum.GetValues(typeof(E));
+        }
     }
 }

@@ -119,6 +119,8 @@ namespace IntruderAlertSystem {
             //test();
             Home h = FloorPlan.home;
 
+            Common.fillComboBoxFromEnum<RoomCategory>(ref cboCategory);
+
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
         }

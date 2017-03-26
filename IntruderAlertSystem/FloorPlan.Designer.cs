@@ -25,15 +25,19 @@
         private void InitializeComponent() {
             this.dgv = new System.Windows.Forms.DataGridView();
             this.gpbRoomInfo = new System.Windows.Forms.GroupBox();
-            this.gpbSensorInfo = new System.Windows.Forms.GroupBox();
-            this.lblCoordinates = new System.Windows.Forms.Label();
-            this.txtRoomXLocation = new System.Windows.Forms.TextBox();
+            this.cboType = new System.Windows.Forms.ComboBox();
+            this.Type = new System.Windows.Forms.Label();
+            this.cboCategory = new System.Windows.Forms.ComboBox();
+            this.lblCategory = new System.Windows.Forms.Label();
             this.txtRoomYLocation = new System.Windows.Forms.TextBox();
+            this.txtRoomXLocation = new System.Windows.Forms.TextBox();
+            this.lblCoordinates = new System.Windows.Forms.Label();
+            this.gpbSensorInfo = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtFloorHeight = new System.Windows.Forms.TextBox();
-            this.txtFloorLength = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.lblX = new System.Windows.Forms.Label();
+            this.txtFloorHeight = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtFloorLength = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.gpbRoomInfo.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -54,6 +58,10 @@
             // 
             // gpbRoomInfo
             // 
+            this.gpbRoomInfo.Controls.Add(this.cboType);
+            this.gpbRoomInfo.Controls.Add(this.Type);
+            this.gpbRoomInfo.Controls.Add(this.cboCategory);
+            this.gpbRoomInfo.Controls.Add(this.lblCategory);
             this.gpbRoomInfo.Controls.Add(this.txtRoomYLocation);
             this.gpbRoomInfo.Controls.Add(this.txtRoomXLocation);
             this.gpbRoomInfo.Controls.Add(this.lblCoordinates);
@@ -64,23 +72,51 @@
             this.gpbRoomInfo.TabStop = false;
             this.gpbRoomInfo.Text = "Room Information";
             // 
-            // gpbSensorInfo
+            // cboType
             // 
-            this.gpbSensorInfo.Location = new System.Drawing.Point(546, 394);
-            this.gpbSensorInfo.Name = "gpbSensorInfo";
-            this.gpbSensorInfo.Size = new System.Drawing.Size(273, 131);
-            this.gpbSensorInfo.TabIndex = 7;
-            this.gpbSensorInfo.TabStop = false;
-            this.gpbSensorInfo.Text = "Sensor Information";
+            this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboType.FormattingEnabled = true;
+            this.cboType.Location = new System.Drawing.Point(65, 77);
+            this.cboType.Name = "cboType";
+            this.cboType.Size = new System.Drawing.Size(121, 21);
+            this.cboType.TabIndex = 6;
             // 
-            // lblCoordinates
+            // Type
             // 
-            this.lblCoordinates.AutoSize = true;
-            this.lblCoordinates.Location = new System.Drawing.Point(7, 20);
-            this.lblCoordinates.Name = "lblCoordinates";
-            this.lblCoordinates.Size = new System.Drawing.Size(69, 13);
-            this.lblCoordinates.TabIndex = 0;
-            this.lblCoordinates.Text = "Cor-ordinates";
+            this.Type.AutoSize = true;
+            this.Type.Location = new System.Drawing.Point(10, 80);
+            this.Type.Name = "Type";
+            this.Type.Size = new System.Drawing.Size(28, 13);
+            this.Type.TabIndex = 5;
+            this.Type.Text = "Text";
+            // 
+            // cboCategory
+            // 
+            this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCategory.FormattingEnabled = true;
+            this.cboCategory.Location = new System.Drawing.Point(65, 50);
+            this.cboCategory.Name = "cboCategory";
+            this.cboCategory.Size = new System.Drawing.Size(121, 21);
+            this.cboCategory.TabIndex = 4;
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(10, 53);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(49, 13);
+            this.lblCategory.TabIndex = 3;
+            this.lblCategory.Text = "Category";
+            // 
+            // txtRoomYLocation
+            // 
+            this.txtRoomYLocation.Location = new System.Drawing.Point(110, 17);
+            this.txtRoomYLocation.Name = "txtRoomYLocation";
+            this.txtRoomYLocation.ReadOnly = true;
+            this.txtRoomYLocation.Size = new System.Drawing.Size(22, 20);
+            this.txtRoomYLocation.TabIndex = 2;
+            this.txtRoomYLocation.Text = "0";
+            this.txtRoomYLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtRoomXLocation
             // 
@@ -92,15 +128,23 @@
             this.txtRoomXLocation.Text = "0";
             this.txtRoomXLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txtRoomYLocation
+            // lblCoordinates
             // 
-            this.txtRoomYLocation.Location = new System.Drawing.Point(110, 17);
-            this.txtRoomYLocation.Name = "txtRoomYLocation";
-            this.txtRoomYLocation.ReadOnly = true;
-            this.txtRoomYLocation.Size = new System.Drawing.Size(22, 20);
-            this.txtRoomYLocation.TabIndex = 2;
-            this.txtRoomYLocation.Text = "0";
-            this.txtRoomYLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.lblCoordinates.AutoSize = true;
+            this.lblCoordinates.Location = new System.Drawing.Point(7, 20);
+            this.lblCoordinates.Name = "lblCoordinates";
+            this.lblCoordinates.Size = new System.Drawing.Size(69, 13);
+            this.lblCoordinates.TabIndex = 0;
+            this.lblCoordinates.Text = "Cor-ordinates";
+            // 
+            // gpbSensorInfo
+            // 
+            this.gpbSensorInfo.Location = new System.Drawing.Point(546, 394);
+            this.gpbSensorInfo.Name = "gpbSensorInfo";
+            this.gpbSensorInfo.Size = new System.Drawing.Size(273, 131);
+            this.gpbSensorInfo.TabIndex = 7;
+            this.gpbSensorInfo.TabStop = false;
+            this.gpbSensorInfo.Text = "Sensor Information";
             // 
             // groupBox1
             // 
@@ -115,6 +159,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Floor Information";
             // 
+            // lblX
+            // 
+            this.lblX.AutoSize = true;
+            this.lblX.Location = new System.Drawing.Point(68, 16);
+            this.lblX.Name = "lblX";
+            this.lblX.Size = new System.Drawing.Size(12, 13);
+            this.lblX.TabIndex = 6;
+            this.lblX.Text = "x";
+            // 
             // txtFloorHeight
             // 
             this.txtFloorHeight.Location = new System.Drawing.Point(82, 13);
@@ -123,15 +176,6 @@
             this.txtFloorHeight.Size = new System.Drawing.Size(22, 20);
             this.txtFloorHeight.TabIndex = 5;
             this.txtFloorHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtFloorLength
-            // 
-            this.txtFloorLength.Location = new System.Drawing.Point(40, 13);
-            this.txtFloorLength.Name = "txtFloorLength";
-            this.txtFloorLength.ReadOnly = true;
-            this.txtFloorLength.Size = new System.Drawing.Size(22, 20);
-            this.txtFloorLength.TabIndex = 4;
-            this.txtFloorLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -142,14 +186,14 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Size";
             // 
-            // lblX
+            // txtFloorLength
             // 
-            this.lblX.AutoSize = true;
-            this.lblX.Location = new System.Drawing.Point(68, 16);
-            this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(12, 13);
-            this.lblX.TabIndex = 6;
-            this.lblX.Text = "x";
+            this.txtFloorLength.Location = new System.Drawing.Point(40, 13);
+            this.txtFloorLength.Name = "txtFloorLength";
+            this.txtFloorLength.ReadOnly = true;
+            this.txtFloorLength.Size = new System.Drawing.Size(22, 20);
+            this.txtFloorLength.TabIndex = 4;
+            this.txtFloorLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FloorPlan
             // 
@@ -187,5 +231,9 @@
         private System.Windows.Forms.TextBox txtFloorHeight;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtFloorLength;
+        private System.Windows.Forms.ComboBox cboType;
+        private System.Windows.Forms.Label Type;
+        private System.Windows.Forms.ComboBox cboCategory;
+        private System.Windows.Forms.Label lblCategory;
     }
 }

@@ -33,6 +33,7 @@ namespace IntruderAlertSystem {
             }
 
             FloorPlan.getInstance(size, size).Show();
+            getInstance().Hide();
         }
 
         private void authenticated_Load(object sender, System.EventArgs e) {
