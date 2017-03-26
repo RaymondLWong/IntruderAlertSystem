@@ -149,7 +149,7 @@ INSERT INTO users (
 
                     // get the MySQL enum and convert it to the appropriate C# enum
                     string t = reader.GetString("type");
-                    sensor.Type = convertMySQLEnumToCSharpEnum<SensorTypeEnum>(t);
+                    sensor.Type = Common.convertMySQLEnumToCSharpEnum<SensorTypeEnum>(t);
 
                     sensorList.Add(sensor);
                 }
@@ -163,12 +163,6 @@ INSERT INTO users (
             }
 
             return sensors;
-        }
-
-        public static T convertMySQLEnumToCSharpEnum<T>(string value) {
-            // source: http://stackoverflow.com/questions/16100/how-should-i-convert-a-string-to-an-enum-in-c
-            value = value.Replace(' ', '_');
-            return (T)Enum.Parse(typeof(T), value, true);
         }
 
         public static Room[] getRoomsFromFloor(int homeID) {
@@ -194,10 +188,10 @@ INSERT INTO users (
                     room.DoorLocations = reader.GetString("doorLocations");
 
                     string t = reader.GetString("type");
-                    room.Type = convertMySQLEnumToCSharpEnum<RoomType>(t);
+                    room.Type = Common.convertMySQLEnumToCSharpEnum<RoomType>(t);
 
                     string c = reader.GetString("category");
-                    room.Category = convertMySQLEnumToCSharpEnum<RoomCategory>(c);
+                    room.Category = Common.convertMySQLEnumToCSharpEnum<RoomCategory>(c);
 
                     roomList.Add(room);
                 }

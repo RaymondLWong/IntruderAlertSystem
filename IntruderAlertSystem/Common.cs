@@ -20,5 +20,11 @@ namespace IntruderAlertSystem {
         public static void disableMaximiseButton(ref Form form) {
             form.MaximizeBox = false;
         }
+
+        public static T convertMySQLEnumToCSharpEnum<T>(string value) {
+            // source: http://stackoverflow.com/questions/16100/how-should-i-convert-a-string-to-an-enum-in-c
+            value = value.Replace(' ', '_');
+            return (T)Enum.Parse(typeof(T), value, true);
+        }
     }
 }

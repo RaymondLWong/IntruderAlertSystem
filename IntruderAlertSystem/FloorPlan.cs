@@ -103,6 +103,8 @@ namespace IntruderAlertSystem {
             foreach (Room r in rList) {
                 Console.WriteLine($"{r.DoorLocations}");
             }
+
+            // TODO: chain call so getFloorsFromHome/getHome gets all objects (including arrays)
         }
 
         private void FloorPlan_Load(object sender, EventArgs e) {
