@@ -187,7 +187,17 @@ namespace IntruderAlertSystem {
             }
         }
 
+        private void uncheckCheckListBoxItems(ref CheckedListBox clb) {
+            while (clb.CheckedIndices.Count > 0) {
+                clb.SetItemChecked(clb.CheckedIndices[0], false);
+            }
+        }
+
         private void setDoorsFromString(string doorLocations) {
+            // uncheck all checked items
+            uncheckCheckListBoxItems(ref clbDoorLocations);
+
+            // check door in 
             if (doorLocations.Contains("N")) {
                 checkItemIfExists(ref clbDoorLocations, CompassPoint.North);
             }
