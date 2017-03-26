@@ -13,14 +13,15 @@ namespace IntruderAlertSystem {
 
         private static FloorPlan floorPlan = null;
         private static Home home = null;
+
+        // hard-cap the max-dimension of a floor
         private const int MAX_ROOMS = 5;
+        // set the default floor size to 5x5
+        private static int FLOOR_LENGTH = 5;
+        private static int FLOOR_HEIGHT = 5;
 
-        private static int START_LENGTH = 5;
-        private static int START_HEIGHT = 5;
-
-        private static int testX = 2;
-        private static int testY = 3;
-
+        // setup some constants that denote the type of room
+        // which is a sub-category of a Rom Category
         RoomType[] END_ROOMS = {
             RoomType.Bedroom,
             RoomType.Bathroom,
@@ -37,12 +38,17 @@ namespace IntruderAlertSystem {
         }
 
         public static Form getInstance(int length = -1, int height = -1, bool newHome = false) {
+            // this substitutes the constructor call as a Singleton pattern is used
             if (floorPlan == null) {
+                // if a new FloorPlan is requested, change it to the requested size
                 if (length != -1 && height != -1) {
-                    START_LENGTH = length;
-                    START_HEIGHT = height;
+                    FLOOR_LENGTH = length;
+                    FLOOR_HEIGHT = height;
                 }
 
+                // if the user already has a home, fetch the existing one
+                // later this can change so the user can select an existing one / create a new one
+                // but for now dealing with one per user is easier
                 if (newHome) {
                     FloorPlan.home = new Home();
                 } else {
@@ -112,7 +118,7 @@ namespace IntruderAlertSystem {
             setupDGV();
 
             // setup floor plan cells and textbox values
-            setupFloorPlan(START_LENGTH, START_HEIGHT);
+            setupFloorPlan(FLOOR_LENGTH, FLOOR_HEIGHT);
 
             // setup combo box for home's alarm state
             Common.fillComboBoxFromEnum<AlarmState>(ref cboAlarmState);
@@ -445,7 +451,7 @@ namespace IntruderAlertSystem {
         }
 
         private void btnRemoveSensor_Click(object sender, EventArgs e) {
-            
+            // TODO
         }
 
         private void btnUpdateSensor_Click(object sender, EventArgs e) {
@@ -455,7 +461,7 @@ namespace IntruderAlertSystem {
         }
 
         private void cboSensorType_SelectedIndexChanged(object sender, EventArgs e) {
-            
+            // auto update on change?
         }
 
         private void addRoomsToHouse() {
