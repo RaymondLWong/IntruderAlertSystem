@@ -137,24 +137,25 @@ namespace IntruderAlertSystem {
             Common.fillComboBoxFromEnum<RoomCategory>(ref cboCategory);
             Common.fillListBoxFromEnum<CompassPoint>(ref clbDoorLocations);
 
+            preventDoorSelectionAtEdges();
+
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
         }
 
-        private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
-            // show cell location in textboxes
-            txtRoomXLocation.Text = e.ColumnIndex.ToString();
-            txtRoomYLocation.Text = e.RowIndex.ToString();
-
+        private void preventDoorSelectionAtEdges() {
             // limit doors to inside the house (no doors at edges)
-            CompassPoint cp = (CompassPoint)clbDoorLocations.SelectedItem;
+
+            // get the cell locations to compare with edges
             int cellX = dgv.SelectedCells[0].ColumnIndex;
             int cellY = dgv.SelectedCells[0].RowIndex;
 
             // http://stackoverflow.com/questions/3816718/how-to-get-an-array-of-all-enum-values-in-c
             List<CompassPoint> compassPoints = Enum.GetValues(typeof(CompassPoint)).Cast<CompassPoint>().ToList();
 
-            // left-hand edges can't have doors on the left wall
+            // left-hand edges can't have doors on the left wall,
+            // right-hand edge can't have doors on right wall etc.
+
             // prevent doors at left edge
             if (cellX == 0) {
                 compassPoints.Remove(CompassPoint.West);
@@ -176,6 +177,51 @@ namespace IntruderAlertSystem {
             }
 
             clbDoorLocations.DataSource = compassPoints;
+        }
+
+        private void checkItemIfExists(ref CheckedListBox clb, Enum e) {
+            // http://stackoverflow.com/questions/370820/how-do-i-programmatically-check-an-item-in-a-checkedlistbox-in-c-sharp
+            if (clb.Items.Contains(e)) {
+                int i = clb.Items.IndexOf(e);
+                clb.SetItemCheckState(i, CheckState.Checked);
+            }
+        }
+
+        private void setDoorsFromString(string doorLocations) {
+            if (doorLocations.Contains("N")) {
+                checkItemIfExists(ref clbDoorLocations, CompassPoint.North);
+            }
+
+            if (doorLocations.Contains("E")) {
+                checkItemIfExists(ref clbDoorLocations, CompassPoint.East);
+            }
+
+            if (doorLocations.Contains("S")) {
+                checkItemIfExists(ref clbDoorLocations, CompassPoint.South);
+            }
+
+            if (doorLocations.Contains("W")) {
+                checkItemIfExists(ref clbDoorLocations, CompassPoint.West);
+            }
+        }
+
+        private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
+            int x = e.ColumnIndex;
+            int y = e.RowIndex;
+
+            // show cell location in textboxes
+            txtRoomXLocation.Text = x.ToString();
+            txtRoomYLocation.Text = y.ToString();
+
+            // load room information
+            Room room = home.Rooms[x, y];
+
+            cboCategory.SelectedItem = room.Category;
+            cboType.SelectedItem = room.Type;
+
+            preventDoorSelectionAtEdges();
+
+            setDoorsFromString(room.DoorLocations);
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
@@ -215,7 +261,6 @@ namespace IntruderAlertSystem {
 
                     if (home.Rooms != null && home.Rooms[e.ColumnIndex, e.RowIndex] != null) {
                         doorLocations = home.Rooms[e.ColumnIndex, e.RowIndex].DoorLocations;
-                        Console.WriteLine($"Doors will be painted at the {doorLocations} side(s).");
                     }
 
                     bool north = doorLocations.Contains("N");
