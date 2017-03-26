@@ -40,8 +40,17 @@
             this.txtFloorLength = new System.Windows.Forms.TextBox();
             this.clbDoorLocations = new System.Windows.Forms.CheckedListBox();
             this.lblDoorLocations = new System.Windows.Forms.Label();
+            this.cboSensorList = new System.Windows.Forms.ComboBox();
+            this.lblSensor = new System.Windows.Forms.Label();
+            this.txtSensorType = new System.Windows.Forms.TextBox();
+            this.lblSensorType = new System.Windows.Forms.Label();
+            this.lblSensorState = new System.Windows.Forms.Label();
+            this.txtSensorState = new System.Windows.Forms.TextBox();
+            this.lblSensorValue = new System.Windows.Forms.Label();
+            this.txtSensorValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.gpbRoomInfo.SuspendLayout();
+            this.gpbSensorInfo.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -144,6 +153,14 @@
             // 
             // gpbSensorInfo
             // 
+            this.gpbSensorInfo.Controls.Add(this.lblSensorValue);
+            this.gpbSensorInfo.Controls.Add(this.txtSensorValue);
+            this.gpbSensorInfo.Controls.Add(this.lblSensorState);
+            this.gpbSensorInfo.Controls.Add(this.txtSensorState);
+            this.gpbSensorInfo.Controls.Add(this.lblSensorType);
+            this.gpbSensorInfo.Controls.Add(this.txtSensorType);
+            this.gpbSensorInfo.Controls.Add(this.lblSensor);
+            this.gpbSensorInfo.Controls.Add(this.cboSensorList);
             this.gpbSensorInfo.Location = new System.Drawing.Point(546, 394);
             this.gpbSensorInfo.Name = "gpbSensorInfo";
             this.gpbSensorInfo.Size = new System.Drawing.Size(273, 131);
@@ -218,6 +235,76 @@
             this.lblDoorLocations.TabIndex = 8;
             this.lblDoorLocations.Text = "Door Locations";
             // 
+            // cboSensorList
+            // 
+            this.cboSensorList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSensorList.FormattingEnabled = true;
+            this.cboSensorList.Location = new System.Drawing.Point(59, 19);
+            this.cboSensorList.Name = "cboSensorList";
+            this.cboSensorList.Size = new System.Drawing.Size(36, 21);
+            this.cboSensorList.TabIndex = 0;
+            this.cboSensorList.SelectedIndexChanged += new System.EventHandler(this.cboSensorList_SelectedIndexChanged);
+            // 
+            // lblSensor
+            // 
+            this.lblSensor.AutoSize = true;
+            this.lblSensor.Location = new System.Drawing.Point(13, 22);
+            this.lblSensor.Name = "lblSensor";
+            this.lblSensor.Size = new System.Drawing.Size(40, 13);
+            this.lblSensor.TabIndex = 9;
+            this.lblSensor.Text = "Sensor";
+            // 
+            // txtSensorType
+            // 
+            this.txtSensorType.Location = new System.Drawing.Point(59, 46);
+            this.txtSensorType.Name = "txtSensorType";
+            this.txtSensorType.ReadOnly = true;
+            this.txtSensorType.Size = new System.Drawing.Size(100, 20);
+            this.txtSensorType.TabIndex = 10;
+            // 
+            // lblSensorType
+            // 
+            this.lblSensorType.AutoSize = true;
+            this.lblSensorType.Location = new System.Drawing.Point(13, 49);
+            this.lblSensorType.Name = "lblSensorType";
+            this.lblSensorType.Size = new System.Drawing.Size(31, 13);
+            this.lblSensorType.TabIndex = 11;
+            this.lblSensorType.Text = "Type";
+            // 
+            // lblSensorState
+            // 
+            this.lblSensorState.AutoSize = true;
+            this.lblSensorState.Location = new System.Drawing.Point(13, 75);
+            this.lblSensorState.Name = "lblSensorState";
+            this.lblSensorState.Size = new System.Drawing.Size(32, 13);
+            this.lblSensorState.TabIndex = 13;
+            this.lblSensorState.Text = "State";
+            // 
+            // txtSensorState
+            // 
+            this.txtSensorState.Location = new System.Drawing.Point(59, 72);
+            this.txtSensorState.Name = "txtSensorState";
+            this.txtSensorState.ReadOnly = true;
+            this.txtSensorState.Size = new System.Drawing.Size(100, 20);
+            this.txtSensorState.TabIndex = 12;
+            // 
+            // lblSensorValue
+            // 
+            this.lblSensorValue.AutoSize = true;
+            this.lblSensorValue.Location = new System.Drawing.Point(13, 101);
+            this.lblSensorValue.Name = "lblSensorValue";
+            this.lblSensorValue.Size = new System.Drawing.Size(34, 13);
+            this.lblSensorValue.TabIndex = 15;
+            this.lblSensorValue.Text = "Value";
+            // 
+            // txtSensorValue
+            // 
+            this.txtSensorValue.Location = new System.Drawing.Point(59, 98);
+            this.txtSensorValue.Name = "txtSensorValue";
+            this.txtSensorValue.ReadOnly = true;
+            this.txtSensorValue.Size = new System.Drawing.Size(100, 20);
+            this.txtSensorValue.TabIndex = 14;
+            // 
             // FloorPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,6 +322,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.gpbRoomInfo.ResumeLayout(false);
             this.gpbRoomInfo.PerformLayout();
+            this.gpbSensorInfo.ResumeLayout(false);
+            this.gpbSensorInfo.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -260,5 +349,13 @@
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.CheckedListBox clbDoorLocations;
         private System.Windows.Forms.Label lblDoorLocations;
+        private System.Windows.Forms.Label lblSensor;
+        private System.Windows.Forms.ComboBox cboSensorList;
+        private System.Windows.Forms.Label lblSensorValue;
+        private System.Windows.Forms.TextBox txtSensorValue;
+        private System.Windows.Forms.Label lblSensorState;
+        private System.Windows.Forms.TextBox txtSensorState;
+        private System.Windows.Forms.Label lblSensorType;
+        private System.Windows.Forms.TextBox txtSensorType;
     }
 }

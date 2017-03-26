@@ -41,5 +41,10 @@ namespace IntruderAlertSystem {
             // http://stackoverflow.com/questions/309333/enum-string-name-from-value/13879305#13879305
             return Enum.GetName(typeof(E), e);
         }
+
+        public static void getDGVSelectedIndexes(DataGridView dgv, out int x, out int y) {
+            x = dgv.SelectedCells[0].ColumnIndex;
+            y = dgv.SelectedCells[0].RowIndex;
+        }
     }
 }

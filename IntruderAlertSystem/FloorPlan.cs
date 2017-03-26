@@ -99,26 +99,6 @@ namespace IntruderAlertSystem {
             dgv.CellClick += new DataGridViewCellEventHandler(this.FloorPlan_CellClick);
         }
 
-        private void test() {
-            Sensor[] sList = Database.getSensorsFromRoom(1);
-
-            foreach (Sensor s in sList) {
-                Console.WriteLine($"sensor reading: {s.Value}");
-            }
-
-            Room[] rList = Database.getRoomsAndSensorsFromFloor(1);
-
-            foreach (Room r in rList) {
-                Console.WriteLine($"doors located at: {r.DoorLocations}");
-                Console.WriteLine($"number of sensors in room: {r.Sensors.Length}");
-            }
-
-            // TODO: chain call so getFloorsFromHome/getHome gets all objects (including arrays)
-            Home h = Database.getHomeAndRooms(User.UserID);
-
-            Console.WriteLine($"Home alarm is {h.State}");
-        }
-
         private void FloorPlan_Load(object sender, EventArgs e) {
             // disallow user resizing or maximising of form
             // http://stackoverflow.com/questions/7970262/disable-resizing-of-a-windows-form
@@ -149,9 +129,11 @@ namespace IntruderAlertSystem {
         private void preventDoorSelectionAtEdges() {
             // limit doors to inside the house (no doors at edges)
 
+            int cellX;
+            int cellY;
+
             // get the cell locations to compare with edges
-            int cellX = dgv.SelectedCells[0].ColumnIndex;
-            int cellY = dgv.SelectedCells[0].RowIndex;
+            Common.getDGVSelectedIndexes(dgv, out cellX, out cellY);
 
             // http://stackoverflow.com/questions/3816718/how-to-get-an-array-of-all-enum-values-in-c
             List<CompassPoint> compassPoints = Enum.GetValues(typeof(CompassPoint)).Cast<CompassPoint>().ToList();
@@ -226,6 +208,9 @@ namespace IntruderAlertSystem {
             cboType.SelectedItem = room.Type;
 
             setDoorsFromString(room.DoorLocations);
+
+            // extract sensor IDs from array and stick them in the drop down
+            cboSensorList.DataSource = room.Sensors.Select((sensor) => sensor.SensorID).ToArray();
         }
 
         private void setupRoomInformation(int x, int y) {
@@ -263,6 +248,7 @@ namespace IntruderAlertSystem {
 
             if (e.ColumnIndex > -1 & e.RowIndex > -1) {
 
+                // set door pen options
                 Color DOOR_COLOUR = Color.Black;
                 int DOOR_BORDER_WIDTH = 5;
 
@@ -363,8 +349,7 @@ namespace IntruderAlertSystem {
         }
 
         private void clbDoorLocations_ItemCheck(object sender, ItemCheckEventArgs e) {
-            
-
+            // TODO: save to room
         }
 
         private bool checkDoorIsValid(Room room) {
@@ -376,21 +361,23 @@ namespace IntruderAlertSystem {
             // loop through each room
             // and check door locations
 
-            // http://stackoverflow.com/questions/32248258/limit-checked-items-in-checkedlistbox
-            //int maxDoors = -1;
-
-            //RoomCategory category = (RoomCategory)cboCategory.SelectedValue;
-
-            //if (category == RoomCategory.End_Room) {
-            //    maxDoors = 1;
-            //} else if (category == RoomCategory.Middle_Room) {
-            //    cboType.DataSource = MIDDLE_ROOMS.Clone();
-            //}
-
-            //if (e.NewValue == CheckState.Checked && clbDoorLocations.CheckedItems.Count >= 2)
-            //    e.NewValue = CheckState.Unchecked;
-
             return true;
+        }
+
+        private void cboSensorList_SelectedIndexChanged(object sender, EventArgs e) {
+            // load sensor information
+            int x, y;
+            Common.getDGVSelectedIndexes(dgv, out x, out y);
+            Room room = home.Rooms[x, y];
+            loadSensorInformation(room, cboSensorList.SelectedIndex);
+        }
+
+        private void loadSensorInformation(Room room, int index) {
+            Sensor sensor = room.Sensors[index];
+
+            txtSensorType.Text = sensor.Type.ToString();
+            txtSensorState.Text = sensor.State.ToString();
+            txtSensorValue.Text = sensor.Value;
         }
     }
 
