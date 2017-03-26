@@ -217,6 +217,7 @@ namespace IntruderAlertSystem {
             // setup the room's information, including hididing invlaid door placement
             preventDoorSelectionAtEdges();
             loadRoomInformation(x, y);
+            setupSensorProperties();
         }
 
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
@@ -372,12 +373,51 @@ namespace IntruderAlertSystem {
             loadSensorInformation(room, cboSensorList.SelectedIndex);
         }
 
+        private void updateSensorInfo() {
+            int x, y;
+            Common.getDGVSelectedIndexes(dgv, out x, out y);
+
+            string newSensorValue = txtSensorValue.Text;
+
+            int index = cboSensorList.SelectedIndex;
+            if (home.Rooms[x, y].Sensors[index].Type != (SensorTypeEnum)cboSensorType.SelectedValue) {
+                newSensorValue = "";
+            }
+
+            home.Rooms[x, y].Sensors[index].Type = (SensorTypeEnum)cboSensorType.SelectedValue;
+            home.Rooms[x, y].Sensors[index].State = (AlarmState)cboSensorState.SelectedValue;
+            home.Rooms[x, y].Sensors[index].Value = newSensorValue;
+            txtSensorValue.Text = newSensorValue;
+        }
+
+        private void setupSensorProperties() {
+            Common.fillComboBoxFromEnum<SensorTypeEnum>(ref cboSensorType);
+            Common.fillComboBoxFromEnum<AlarmState>(ref cboSensorState);
+        }
+
         private void loadSensorInformation(Room room, int index) {
             Sensor sensor = room.Sensors[index];
 
-            txtSensorType.Text = sensor.Type.ToString();
-            txtSensorState.Text = sensor.State.ToString();
+            cboSensorType.SelectedItem = sensor.Type;
+            cboSensorState.SelectedItem = sensor.State;
             txtSensorValue.Text = sensor.Value;
+        }
+
+        private void btnAddSensor_Click(object sender, EventArgs e) {
+
+        }
+
+        private void btnRemoveSensor_Click(object sender, EventArgs e) {
+            
+        }
+
+        private void btnUpdateSensor_Click(object sender, EventArgs e) {
+            // update sensor type and clear sensor value
+            updateSensorInfo();
+        }
+
+        private void cboSensorType_SelectedIndexChanged(object sender, EventArgs e) {
+            
         }
     }
 
