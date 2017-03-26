@@ -30,23 +30,14 @@ namespace IntruderAlertSystem {
                 if (length != -1 && height != -1) {
                     START_LENGTH = length;
                     START_HEIGHT = height;
+
+                    FloorPlan.home = Database.getHomeAndRooms(User.UserID);
                 }
 
                 floorPlan = new FloorPlan();
             }
 
             return floorPlan;
-        }
-
-        private void mapHome() {
-            home = new Home();
-
-            home.HomeID = 1;
-
-            Room r = new Room(1, RoomCategory.End_Room, RoomType.Bathroom, testX, testY, "NESW");
-
-            home.Rooms = new Room[MAX_ROOMS, MAX_ROOMS];
-            home.Rooms[r.X, r.Y] = r;
         }
 
         private void setupFloorPlan(int length, int height) {
@@ -123,15 +114,16 @@ namespace IntruderAlertSystem {
             setupFloorPlan(START_LENGTH, START_HEIGHT);
 
             // fetch the room information from the database
-            test();
-            mapHome();
+            //test();
+            Home h = FloorPlan.home;
 
             HomeConfig.getInstance().Show();
             HomeConfig.getInstance().Left = getInstance().Right;
         }
-        
+
         private void FloorPlan_CellClick(object sender, DataGridViewCellEventArgs e) {
-            Console.WriteLine($"x: {e.ColumnIndex}, y: {e.RowIndex}");
+            txtRoomXLocation.Text = e.ColumnIndex.ToString();
+            txtRoomYLocation.Text = e.RowIndex.ToString();
         }
 
         private void FloorPlan_FormClosing(object sender, FormClosingEventArgs e) {
