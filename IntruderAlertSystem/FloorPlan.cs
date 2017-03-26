@@ -525,10 +525,14 @@ namespace IntruderAlertSystem {
 
             home.Rooms[x, y] = room;
 
+            // sync changes to cell overview
+            showRoomOverviewAtCell(x, y);
+
             if (home.HomeID == -1) {
                 saveHouse();
             }
 
+            // TODO: get roomID from query and stick back into object
             Database.saveRoom(home.HomeID, room);
         }
 
