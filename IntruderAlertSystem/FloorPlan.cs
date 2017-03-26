@@ -73,17 +73,24 @@ namespace IntruderAlertSystem {
             int CELL_HEIGHT = dgv.Height / dgv.RowCount;
             int CELL_WIDTH = dgv.Width / dgv.ColumnCount;
 
+            // make font relative to cell width
+            // font properties copied from designer auto-gen code, with Font Size changed
+            int FONT_SIZE = (int)Math.Round(CELL_WIDTH * 0.08);
+            Font CELL_FONT = new Font("Verdana", FONT_SIZE, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+
             // set cell lengths to be square and decently sized, so it represents a "room"
             // also set the cell text to be centred in the middle
             // https://msdn.microsoft.com/en-us/library/system.windows.forms.datagridviewcellstyle.alignment(v=vs.110).aspx
             foreach (DataGridViewColumn column in dgv.Columns) {
                 column.Width = CELL_HEIGHT;
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                column.DefaultCellStyle.Font = CELL_FONT;
             }
 
             foreach (DataGridViewRow row in dgv.Rows) {
                 row.Height = CELL_WIDTH;
                 row.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                row.DefaultCellStyle.Font = CELL_FONT;
             }
 
             loopThroughRoomsAndExtractOverview();
@@ -472,7 +479,6 @@ namespace IntruderAlertSystem {
                 home.Rooms = new Room[length, height];
             }
 
-            home.HomeID = 3;
             home.State = (AlarmState)cboAlarmState.SelectedValue;
         }
 
@@ -550,8 +556,9 @@ namespace IntruderAlertSystem {
 
         public void loopThroughRoomsAndExtractOverview() {
             foreach (Room room in home.Rooms) {
-                showRoomOverviewAtCell(room.X, room.Y);
-                //dgv[room.X, room.Y].
+                if (room != null) {
+                    showRoomOverviewAtCell(room.X, room.Y);
+                }
             }
         }
     }
