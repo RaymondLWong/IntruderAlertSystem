@@ -110,10 +110,10 @@ namespace IntruderAlertSystem {
             // setup floor plan cells and textbox values
             setupFloorPlan(START_LENGTH, START_HEIGHT);
 
-            // fetch the room information from the database
-            //test();
-            Home h = FloorPlan.home;
+            // setup combo box for home's alarm state
+            Common.fillComboBoxFromEnum<AlarmState>(ref cboAlarmState);
 
+            // fetch the room information from the database
             Common.fillComboBoxFromEnum<RoomCategory>(ref cboCategory);
             Common.fillListBoxFromEnum<CompassPoint>(ref clbDoorLocations);
 
@@ -204,12 +204,15 @@ namespace IntruderAlertSystem {
             if (home.Rooms == null) { return; }
             Room room = home.Rooms[x, y];
 
+            if (room == null) { return; }
+
             cboCategory.SelectedItem = room.Category;
             cboType.SelectedItem = room.Type;
 
             setDoorsFromString(room.DoorLocations);
 
             // extract sensor IDs from array and stick them in the drop down
+            // http://stackoverflow.com/questions/4765084/convert-a-list-of-objects-to-an-array-of-one-of-the-objects-properties
             cboSensorList.DataSource = room.Sensors.Select((sensor) => sensor.SensorID).ToArray();
         }
 
@@ -399,7 +402,7 @@ namespace IntruderAlertSystem {
             Sensor sensor = room.Sensors[index];
 
             cboSensorType.SelectedItem = sensor.Type;
-            cboSensorState.SelectedItem = sensor.State;
+            cboSensorState.SelectedItem = sensor.State; // TODO: this doesn't load properly
             txtSensorValue.Text = sensor.Value;
         }
 
@@ -418,6 +421,36 @@ namespace IntruderAlertSystem {
 
         private void cboSensorType_SelectedIndexChanged(object sender, EventArgs e) {
             
+        }
+
+        private void addRoom() {
+            if (home.Rooms == null) {
+                int length = dgv.ColumnCount;
+                int height = dgv.RowCount;
+                home.Rooms = new Room[length, height];
+            }
+
+            home.HomeID = 3;
+            home.State = (AlarmState)cboAlarmState.SelectedValue;
+        }
+
+        private void btnSaveHouse_Click(object sender, EventArgs e) {
+            addRoom();
+
+            // if the homeID is the default (invalid) -1 then create a new DB record
+            // otherwise, update the existing record
+
+            bool dbUpdated = false;
+
+            if (home.HomeID == -1) {
+                dbUpdated = Database.insertHomeIntoDB(home);
+            } else {
+                dbUpdated = Database.saveHomeToDB(home);
+            }
+
+            string dbSuccessText = (dbUpdated) ? "successfully" : "failed to";
+
+            MessageBox.Show($"Database {dbSuccessText} updated.");
         }
     }
 

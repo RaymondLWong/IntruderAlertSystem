@@ -272,5 +272,114 @@ INSERT INTO users (
 
             return home;
         }
+
+        public static bool updateSensor(Sensor sensor) {
+            bool success = false;
+
+            string s = "UPDATE `sensors` SET `roomID`=2,`type`='Entry',`state`='Enabled',`value`='value' WHERE sensorID = 7;";
+
+            return success;
+        }
+
+        public static bool insertHomeIntoDB(Home home) {
+            bool success = false;
+
+            // http://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array
+            int length = home.Rooms.GetLength(0);
+            int height = home.Rooms.GetLength(1);
+
+            string state = Common.convertCSharpEnumToMySQLEnum(home.State);
+
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand(@"
+INSERT INTO home (
+    `userID`,
+    `xLength`,
+    `yLength`, 
+    `alarmState`
+) VALUES (
+    @userID, 
+    @length,
+    @height,
+    @state
+);", con);
+
+            // http://stackoverflow.com/questions/17185739/saving-byte-array-to-mysql
+            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.VarChar);
+            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.VarBinary);
+            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.VarBinary);
+            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarBinary);
+
+            paramUserID.Value = User.UserID;
+            paramLength.Value = length;
+            paramHeight.Value = height;
+            paramState.Value = state;
+
+            cmd.Parameters.Add(paramUserID);
+            cmd.Parameters.Add(paramLength);
+            cmd.Parameters.Add(paramHeight);
+            cmd.Parameters.Add(paramState);
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                success = true;
+            } catch (MySqlException MySqlE) {
+                throw MySqlE;
+            } finally {
+                con.Close();
+            }
+
+            return success;
+        }
+
+        public static bool saveHomeToDB(Home home) {
+            bool success = false;
+
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand(@"
+UPDATE `home` 
+SET 
+    `userID` = @userID,
+    `xLength` = @length,
+    `yLength` = @height,
+    `alarmState` = @state
+WHERE 
+    homeID = @homeiD
+", con);
+            MySqlParameter paramHomeID = new MySqlParameter("@homeiD", MySqlDbType.VarBinary);
+            MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.VarBinary);
+            MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.VarBinary);
+            MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.VarBinary);
+            MySqlParameter paramState = new MySqlParameter("@state", MySqlDbType.VarBinary);
+
+            string state = Common.convertCSharpEnumToMySQLEnum(home.State);
+
+            paramHomeID.Value = home.HomeID;
+            paramUserID.Value = User.UserID;
+            paramLength.Value = home.Rooms.GetLength(0);
+            paramHeight.Value = home.Rooms.GetLength(1);
+            paramState.Value = state;
+
+            cmd.Parameters.Add(paramHomeID);
+            cmd.Parameters.Add(paramUserID);
+            cmd.Parameters.Add(paramLength);
+            cmd.Parameters.Add(paramHeight);
+            cmd.Parameters.Add(paramState);
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                success = true;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return success;
+        }
     }
 }

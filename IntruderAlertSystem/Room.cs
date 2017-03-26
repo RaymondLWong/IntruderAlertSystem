@@ -25,7 +25,7 @@ namespace IntruderAlertSystem
     }
 
     public class Room {
-        int roomID;
+        int roomID = -1;
 
         RoomCategory category;
         RoomType type;

@@ -18,7 +18,7 @@ namespace IntruderAlertSystem {
         Entry
     }
     public class Sensor {
-        int sensorID;
+        int sensorID = -1;
         SensorTypeEnum type;
         AlarmState state;
         string value;

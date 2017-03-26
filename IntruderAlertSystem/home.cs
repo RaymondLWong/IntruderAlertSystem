@@ -17,7 +17,7 @@ namespace IntruderAlertSystem {
     }
 
     public class Home {
-        int homeID;
+        int homeID = -1;
         AlarmState state;
 
         Room[,] rooms;

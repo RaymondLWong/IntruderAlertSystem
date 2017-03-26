@@ -28,6 +28,10 @@ namespace IntruderAlertSystem {
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
+        public static string convertCSharpEnumToMySQLEnum(Enum e) {
+            return e.ToString().Replace('_', ' ');
+        }
+
         public static void fillComboBoxFromEnum<E>(ref ComboBox cbo) {
             // http://stackoverflow.com/questions/906899/binding-an-enum-to-a-winforms-combo-box-and-then-setting-it
             cbo.DataSource = Enum.GetValues(typeof(E));

@@ -51,6 +51,9 @@
             this.btnRemoveSensor = new System.Windows.Forms.Button();
             this.cboSensorState = new System.Windows.Forms.ComboBox();
             this.btnUpdateSensor = new System.Windows.Forms.Button();
+            this.btnSaveHouse = new System.Windows.Forms.Button();
+            this.cboAlarmState = new System.Windows.Forms.ComboBox();
+            this.lblHomeState = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.gpbRoomInfo.SuspendLayout();
             this.gpbSensorInfo.SuspendLayout();
@@ -176,6 +179,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cboAlarmState);
+            this.groupBox1.Controls.Add(this.lblHomeState);
+            this.groupBox1.Controls.Add(this.btnSaveHouse);
             this.groupBox1.Controls.Add(this.lblX);
             this.groupBox1.Controls.Add(this.txtFloorHeight);
             this.groupBox1.Controls.Add(this.label1);
@@ -344,6 +350,34 @@
             this.btnUpdateSensor.UseVisualStyleBackColor = true;
             this.btnUpdateSensor.Click += new System.EventHandler(this.btnUpdateSensor_Click);
             // 
+            // btnSaveHouse
+            // 
+            this.btnSaveHouse.Location = new System.Drawing.Point(56, 75);
+            this.btnSaveHouse.Name = "btnSaveHouse";
+            this.btnSaveHouse.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveHouse.TabIndex = 7;
+            this.btnSaveHouse.Text = "Save house";
+            this.btnSaveHouse.UseVisualStyleBackColor = true;
+            this.btnSaveHouse.Click += new System.EventHandler(this.btnSaveHouse_Click);
+            // 
+            // cboAlarmState
+            // 
+            this.cboAlarmState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAlarmState.FormattingEnabled = true;
+            this.cboAlarmState.Location = new System.Drawing.Point(114, 39);
+            this.cboAlarmState.Name = "cboAlarmState";
+            this.cboAlarmState.Size = new System.Drawing.Size(100, 21);
+            this.cboAlarmState.TabIndex = 21;
+            // 
+            // lblHomeState
+            // 
+            this.lblHomeState.AutoSize = true;
+            this.lblHomeState.Location = new System.Drawing.Point(10, 42);
+            this.lblHomeState.Name = "lblHomeState";
+            this.lblHomeState.Size = new System.Drawing.Size(98, 13);
+            this.lblHomeState.TabIndex = 20;
+            this.lblHomeState.Text = "Alarm System State";
+            // 
             // FloorPlan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,5 +433,8 @@
         private System.Windows.Forms.ComboBox cboSensorType;
         private System.Windows.Forms.ComboBox cboSensorState;
         private System.Windows.Forms.Button btnUpdateSensor;
+        private System.Windows.Forms.Button btnSaveHouse;
+        private System.Windows.Forms.ComboBox cboAlarmState;
+        private System.Windows.Forms.Label lblHomeState;
     }
 }
