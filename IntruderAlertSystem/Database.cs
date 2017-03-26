@@ -206,5 +206,17 @@ INSERT INTO users (
 
             return rooms;
         }
+
+        public static Room[] getRoomsAndSensorsFromFloor(int homeID) {
+            Room[] rooms = getRoomsFromFloor(homeID);
+
+            if (rooms != null) {
+                foreach (Room room in rooms) {
+                    room.Sensors = getSensorsFromRoom(room.RoomID);
+                }
+            }
+
+            return rooms;
+        }
     }
 }

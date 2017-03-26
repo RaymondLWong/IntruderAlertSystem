@@ -95,16 +95,18 @@ namespace IntruderAlertSystem {
             Sensor[] sList = Database.getSensorsFromRoom(1);
 
             foreach (Sensor s in sList) {
-                Console.WriteLine($"{s.Value}");
+                Console.WriteLine($"sensor reading: {s.Value}");
             }
 
-            Room[] rList = Database.getRoomsFromFloor(1);
+            Room[] rList = Database.getRoomsAndSensorsFromFloor(1);
 
             foreach (Room r in rList) {
-                Console.WriteLine($"{r.DoorLocations}");
+                Console.WriteLine($"doors located at: {r.DoorLocations}");
+                Console.WriteLine($"number of sensors in room: {r.Sensors.Length}");
             }
 
             // TODO: chain call so getFloorsFromHome/getHome gets all objects (including arrays)
+
         }
 
         private void FloorPlan_Load(object sender, EventArgs e) {
