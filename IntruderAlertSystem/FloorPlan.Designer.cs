@@ -74,6 +74,8 @@
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
             this.dgv.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgv.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Verdana", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dgv.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv.Size = new System.Drawing.Size(500, 500);
