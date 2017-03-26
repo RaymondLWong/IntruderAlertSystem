@@ -151,6 +151,7 @@ namespace IntruderAlertSystem {
             int cellX = dgv.SelectedCells[0].ColumnIndex;
             int cellY = dgv.SelectedCells[0].RowIndex;
 
+            // http://stackoverflow.com/questions/3816718/how-to-get-an-array-of-all-enum-values-in-c
             List<CompassPoint> compassPoints = Enum.GetValues(typeof(CompassPoint)).Cast<CompassPoint>().ToList();
 
             // left-hand edges can't have doors on the left wall
