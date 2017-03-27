@@ -53,6 +53,7 @@ namespace IntruderAlertSystem {
                 string title = "Incorrect username or password requirements";
                 MessageBox.Show(errorMessage, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                return;
             } else {
                 // generate a salt and hash the password
                 byte[] salt = PasswordHashWithPBKDF2.generateSalt();
@@ -63,9 +64,9 @@ namespace IntruderAlertSystem {
 
                 // clear the data so a new user can register
                 clearData();
-            }
 
-            returnToLogin();
+                returnToLogin();
+            }
         }
 
         private void clearData() {

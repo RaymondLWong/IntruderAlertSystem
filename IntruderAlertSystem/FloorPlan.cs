@@ -520,6 +520,7 @@ namespace IntruderAlertSystem {
             string doorLocations = gatherDoorLocations();
             if (room.DoorLocations != null && room.DoorLocations != doorLocations) {
                 // force repaint of cells to show new door
+                // source: https://msdn.microsoft.com/en-us/library/yc4fsbf5(v=vs.110).aspx
                 // this is done by setting the selected cell to (0, 0) / (0, 1)
                 // then reselecting the original cell
                 if (x == 0 && y == 0) {
