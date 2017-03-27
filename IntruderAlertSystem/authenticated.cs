@@ -50,7 +50,12 @@ namespace IntruderAlertSystem {
 
                 setComboboxSelectedItemToLast(ref cboFloorSize);
             } else {
+                // set the drop-down to the floor length 
+                // but disable it so the user can't change it
+                int[] existingSize = { home.Rooms.GetLength(0) };
+                cboFloorSize.DataSource = existingSize;
                 cboFloorSize.Enabled = false;
+
                 btnCreate.Text = "Load existing floor plan";
                 // http://stackoverflow.com/questions/3965694/how-to-resize-a-button-depending-on-its-text
                 btnCreate.AutoSize = true;
