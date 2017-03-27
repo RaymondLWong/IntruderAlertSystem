@@ -75,5 +75,9 @@ namespace IntruderAlertSystem {
         private void setComboboxSelectedItemToLast(ref ComboBox cbo) {
             cbo.SelectedIndex = cbo.Items.Count - 1;
         }
+
+        private void authenticated_FormClosing(object sender, FormClosingEventArgs e) {
+            Common.confirmClose(ref e);
+        }
     }
 }

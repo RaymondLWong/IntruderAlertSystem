@@ -112,6 +112,7 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.txtUsername);
+            this.MaximizeBox = false;
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Login";

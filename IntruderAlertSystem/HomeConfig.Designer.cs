@@ -47,6 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 456);
             this.Controls.Add(this.dgvSensorLog);
+            this.MaximizeBox = false;
             this.Name = "HomeConfig";
             this.Text = "HomeConfig";
             ((System.ComponentModel.ISupportInitialize)(this.sensorsDataset)).EndInit();

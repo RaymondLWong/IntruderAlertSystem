@@ -131,9 +131,11 @@
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnRegister);
+            this.MaximizeBox = false;
             this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Register";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Register_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

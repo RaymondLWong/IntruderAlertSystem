@@ -104,7 +104,7 @@
             // 
             // btnSaveRoom
             // 
-            this.btnSaveRoom.Location = new System.Drawing.Point(192, 161);
+            this.btnSaveRoom.Location = new System.Drawing.Point(10, 161);
             this.btnSaveRoom.Name = "btnSaveRoom";
             this.btnSaveRoom.Size = new System.Drawing.Size(75, 23);
             this.btnSaveRoom.TabIndex = 22;
@@ -218,7 +218,8 @@
             // 
             // btnSaveSensor
             // 
-            this.btnSaveSensor.Location = new System.Drawing.Point(170, 82);
+            this.btnSaveSensor.Enabled = false;
+            this.btnSaveSensor.Location = new System.Drawing.Point(170, 104);
             this.btnSaveSensor.Name = "btnSaveSensor";
             this.btnSaveSensor.Size = new System.Drawing.Size(97, 23);
             this.btnSaveSensor.TabIndex = 19;
@@ -237,7 +238,8 @@
             // 
             // btnRemoveSensor
             // 
-            this.btnRemoveSensor.Location = new System.Drawing.Point(170, 48);
+            this.btnRemoveSensor.Enabled = false;
+            this.btnRemoveSensor.Location = new System.Drawing.Point(170, 63);
             this.btnRemoveSensor.Name = "btnRemoveSensor";
             this.btnRemoveSensor.Size = new System.Drawing.Size(97, 23);
             this.btnRemoveSensor.TabIndex = 17;

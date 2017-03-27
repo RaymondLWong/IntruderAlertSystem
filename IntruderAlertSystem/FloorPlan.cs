@@ -517,11 +517,26 @@ namespace IntruderAlertSystem {
                 room = home.Rooms[x, y];
             }
 
+            string doorLocations = gatherDoorLocations();
+            if (room.DoorLocations != null && room.DoorLocations != doorLocations) {
+                // force repaint of cells to show new door
+                // this is done by setting the selected cell to (0, 0) / (0, 1)
+                // then reselecting the original cell
+                if (x == 0 && y == 0) {
+                    dgv.CurrentCell = dgv[0, 1];
+                } else {
+                    dgv.CurrentCell = dgv[0, 0];
+                }
+
+                // reset cell
+                dgv.CurrentCell = dgv[x, y];
+            }
+
             room.Category = (RoomCategory)cboCategory.SelectedItem;
             room.Type = (RoomType)cboType.SelectedItem;
             room.X = x;
             room.Y = y;
-            room.DoorLocations = gatherDoorLocations(); ;
+            room.DoorLocations = doorLocations;
 
             home.Rooms[x, y] = room;
 

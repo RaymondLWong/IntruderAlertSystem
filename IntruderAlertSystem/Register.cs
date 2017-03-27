@@ -86,5 +86,9 @@ namespace IntruderAlertSystem {
         private void btnBack_Click(object sender, EventArgs e) {
             returnToLogin();
         }
+
+        private void Register_FormClosing(object sender, FormClosingEventArgs e) {
+            Common.confirmClose(ref e);
+        }
     }
 }
