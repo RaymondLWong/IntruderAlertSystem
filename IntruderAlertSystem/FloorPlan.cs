@@ -439,8 +439,16 @@ namespace IntruderAlertSystem {
             int x, y;
             Common.getDGVSelectedIndexes(dgv, out x, out y);
 
-            List<Sensor> sensors = home.Rooms[x, y].Sensors.ToList();
+            // if the room doesn't exist, create it first
+            saveRoom();
 
+            List<Sensor> sensors = new List<Sensor>();
+
+            // if the room already has sensors, retrieve them
+            if (home.Rooms[x, y].Sensors != null) {
+                sensors = home.Rooms[x, y].Sensors.ToList();
+            }
+            
             Sensor sensor = new Sensor();
             sensor.Type = (SensorTypeEnum)cboSensorType.SelectedItem;
             sensor.State = (AlarmState)cboSensorState.SelectedItem;
@@ -456,6 +464,9 @@ namespace IntruderAlertSystem {
             home.Rooms[x, y].Sensors = sensors.ToArray();
             loadSensorIDsFromSensors(ref home.Rooms[x, y]);
             cboSensorList.SelectedIndex = cboSensorList.Items.Count - 1;
+            
+            // update cell text
+            loopThroughRoomsAndExtractOverview();
         }
 
         private void btnRemoveSensor_Click(object sender, EventArgs e) {
@@ -501,19 +512,29 @@ namespace IntruderAlertSystem {
             MessageBox.Show($"Database {dbSuccessText} updated.");
         }
 
-        private void btnSaveHouse_Click(object sender, EventArgs e) {
+        private void syncHome() {
+            // sync user chosen pref to home object
             addRoomsToHouse();
-
+            // create a new house in the DB or update existing one
             saveHouse();
+        }
+
+        private void btnSaveHouse_Click(object sender, EventArgs e) {
+            syncHome();
         }
 
         private void saveRoom() {
             int x, y;
             Common.getDGVSelectedIndexes(dgv, out x, out y);
 
+            // if the home doesn't exist in the DB create it first
+            if (home.HomeID == -1) {
+                syncHome();
+            }
+
             Room room = new Room();
 
-            if (home.Rooms[x, y] != null) {
+            if (home.Rooms != null && home.Rooms[x, y] != null) {
                 room = home.Rooms[x, y];
             }
 
@@ -543,11 +564,6 @@ namespace IntruderAlertSystem {
 
             // sync changes to cell overview
             showRoomOverviewAtCell(x, y);
-
-            // if the home doesn't exist in the DB create it first
-            if (home.HomeID == -1) {
-                saveHouse();
-            }
 
             // if the room already exists in the DB, update it
             // otherwise create a new one
@@ -584,9 +600,12 @@ namespace IntruderAlertSystem {
         }
 
         public void loopThroughRoomsAndExtractOverview() {
-            foreach (Room room in home.Rooms) {
-                if (room != null) {
-                    showRoomOverviewAtCell(room.X, room.Y);
+            // only extract information if there are rooms to extract information from
+            if (home.Rooms != null) {
+                foreach (Room room in home.Rooms) {
+                    if (room != null) {
+                        showRoomOverviewAtCell(room.X, room.Y);
+                    }
                 }
             }
         }
