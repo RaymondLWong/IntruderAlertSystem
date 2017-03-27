@@ -490,10 +490,10 @@ namespace IntruderAlertSystem {
 
             if (home.HomeID == -1) {
                 int newHomeID;
-                dbUpdated = Database.insertHomeIntoDB(home, out newHomeID);
+                dbUpdated = Database.createHome(home, out newHomeID);
                 home.HomeID = newHomeID;
             } else {
-                dbUpdated = Database.saveHomeToDB(home);
+                dbUpdated = Database.updateHome(home);
             }
 
             string dbSuccessText = (dbUpdated) ? "successfully" : "failed to";
@@ -528,12 +528,21 @@ namespace IntruderAlertSystem {
             // sync changes to cell overview
             showRoomOverviewAtCell(x, y);
 
+            // if the home doesn't exist in the DB create it first
             if (home.HomeID == -1) {
                 saveHouse();
             }
 
-            // TODO: get roomID from query and stick back into object
-            Database.saveRoom(home.HomeID, room);
+            // if the room already exists in the DB, update it
+            // otherwise create a new one
+            if (room.RoomID == -1) {
+                // get roomID from query and place it back into the object
+                int newRoomID;
+                Database.createRoom(home.HomeID, room, out newRoomID);
+                home.Rooms[x, y].RoomID = newRoomID;
+            } else {
+                Database.updateRoom(home.HomeID, room);
+            }
         }
 
         private void btnSaveRoom_Click(object sender, EventArgs e) {

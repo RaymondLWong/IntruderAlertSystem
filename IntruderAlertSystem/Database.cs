@@ -282,7 +282,7 @@ INSERT INTO users (
             return success;
         }
 
-        public static bool insertHomeIntoDB(Home home, out int homeID) {
+        public static bool createHome(Home home, out int homeID) {
             bool success = false;
 
             // http://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array
@@ -336,7 +336,7 @@ INSERT INTO home (
             return success;
         }
 
-        public static bool saveHomeToDB(Home home) {
+        public static bool updateHome(Home home) {
             bool success = false;
 
             MySqlConnection con = getDBConection();
@@ -348,9 +348,9 @@ SET
     `yLength` = @height,
     `alarmState` = @state
 WHERE 
-    homeID = @homeiD
+    homeID = @homeID
 ", con);
-            MySqlParameter paramHomeID = new MySqlParameter("@homeiD", MySqlDbType.Int32);
+            MySqlParameter paramHomeID = new MySqlParameter("@homeID", MySqlDbType.Int32);
             MySqlParameter paramUserID = new MySqlParameter("@userID", MySqlDbType.Int32);
             MySqlParameter paramLength = new MySqlParameter("@length", MySqlDbType.Int32);
             MySqlParameter paramHeight = new MySqlParameter("@height", MySqlDbType.Int32);
@@ -384,12 +384,7 @@ WHERE
             return success;
         }
 
-        public static bool saveRoom(int homeID, Room room) {
-            // TODO: currently the room is insertered into the database
-            // without checking for existing rooms (to save time).
-            // this means that a retrieved room for a particular co-ordinate could
-            // be overwritten by another room (same co-ords, different id and info)
-
+        public static bool createRoom(int homeID, Room room, out int roomID) {
             bool success = false;
 
             MySqlConnection con = getDBConection();
@@ -425,6 +420,60 @@ INSERT INTO `rooms` (
             paramDoorLocations.Value = room.DoorLocations;
 
             cmd.Parameters.Add(paramHomeID);
+            cmd.Parameters.Add(paramX);
+            cmd.Parameters.Add(paramY);
+            cmd.Parameters.Add(paramCategory);
+            cmd.Parameters.Add(paramType);
+            cmd.Parameters.Add(paramDoorLocations);
+
+            try {
+                con.Open();
+                cmd.ExecuteNonQuery();
+                roomID = (int)cmd.LastInsertedId;
+
+                success = true;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                con.Close();
+            }
+
+            return success;
+        }
+
+        public static bool updateRoom(int homeID, Room room) {
+            bool success = false;
+
+            MySqlConnection con = getDBConection();
+            MySqlCommand cmd = new MySqlCommand(@"
+UPDATE `rooms` 
+SET 
+    `homeID` = @homeID,
+    `xLocation` = @x,
+    `yLocation` = @y,
+    `category` = @category,
+    `type` = @type,
+    `doorLocations` = @doorLocations 
+WHERE `roomID` = @roomID
+", con);
+            MySqlParameter paramRoomID = new MySqlParameter("@roomID", MySqlDbType.Int32);
+            MySqlParameter paramHomeID = new MySqlParameter("@homeID", MySqlDbType.Int32);
+            MySqlParameter paramX = new MySqlParameter("@x", MySqlDbType.Int32);
+            MySqlParameter paramY = new MySqlParameter("@y", MySqlDbType.Int32);
+            MySqlParameter paramCategory = new MySqlParameter("@category", MySqlDbType.VarChar);
+            MySqlParameter paramType = new MySqlParameter("@type", MySqlDbType.VarChar);
+            MySqlParameter paramDoorLocations = new MySqlParameter("@doorLocations", MySqlDbType.VarChar);
+            
+            paramHomeID.Value = homeID;
+            paramRoomID.Value = room.RoomID;
+            paramX.Value = room.X;
+            paramY.Value = room.Y;
+            paramCategory.Value = Common.convertCSharpEnumToMySQLEnum(room.Category);
+            paramType.Value = Common.convertCSharpEnumToMySQLEnum(room.Type);
+            paramDoorLocations.Value = room.DoorLocations;
+
+            cmd.Parameters.Add(paramHomeID);
+            cmd.Parameters.Add(paramRoomID);
             cmd.Parameters.Add(paramX);
             cmd.Parameters.Add(paramY);
             cmd.Parameters.Add(paramCategory);
