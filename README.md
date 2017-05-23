@@ -1,6 +1,6 @@
 # IntruderAlertSystem
 
-Created as a university project.
+Created for university course Programming Distributed Components (PDC).
 
 TODO:
 
